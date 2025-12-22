@@ -1,0 +1,15 @@
+<%- include("partials/header") %>
+
+<h2 class="text-xl font-semibold mb-2">User Dashboard</h2>
+
+<p class="mb-1">Welcome, <strong><%= user.name %></strong></p>
+<p class="mb-4">Role: <%= user.role %></p>
+
+<% if (user.role === "admin") { %>
+  <a href="/admin"
+     class="block text-center bg-purple-600 text-white p-2 rounded hover:bg-purple-700">
+     Go to Admin Panel
+  </a>
+<% } %>
+
+<%- include("partials/footer") %>

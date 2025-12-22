@@ -1,20 +1,19 @@
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
-/* ================= REGISTER ================= */
+
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  // check if user exists
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     return res.render("register", { error: "User already exists" });
   }
 
-  // hash password
+
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // save user
+
   const user = new User({
     name,
     email,
@@ -25,7 +24,7 @@ exports.register = async (req, res) => {
   res.redirect("/login");
 };
 
-/* ================= LOGIN ================= */
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -43,7 +42,7 @@ exports.login = async (req, res) => {
   res.redirect("/dashboard");
 };
 
-/* ================= LOGOUT ================= */
+
 exports.logout = (req, res) => {
   req.session.destroy(() => {
     res.redirect("/login");

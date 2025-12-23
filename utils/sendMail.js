@@ -8,11 +8,11 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-exports.sendMail = async (to, subject, text) => {
+exports.sendOtpMail = async (to, otp) => {
   await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to,
-    subject,
-    text
+    subject: "OTP Verification",
+    text: `Your OTP is ${otp}. It is valid for 5 minutes.`
   });
 };

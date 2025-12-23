@@ -1,8 +1,8 @@
 const pool = require("../db/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { sendOtpMail } = require("../utils/sendMail");
 
-/* REGISTER */
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -11,20 +11,25 @@ exports.register = async (req, res) => {
   ]);
 
   if (existing.rows.length > 0) {
-    return res.status(400).send("User already exists");
+    return res.render("register", { error: "User already exists" });
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+
   await pool.query(
-    "INSERT INTO users (name, email, password) VALUES ($1,$2,$3)",
-    [name, email, hashedPassword]
+    `INSERT INTO users (name, email, password, otp, otp_expiry)
+     VALUES ($1,$2,$3,$4,$5)`,
+    [name, email, hashedPassword, otp, otpExpiry]
   );
 
-  res.redirect("/login");
+  await sendOtpMail(email, otp);
+
+  res.redirect(`/verify-otp?email=${email}`);
 };
 
-/* LOGIN */
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -33,14 +38,18 @@ exports.login = async (req, res) => {
   ]);
 
   if (result.rows.length === 0) {
-    return res.status(401).send("User not found");
+    return res.send("User not found");
   }
 
   const user = result.rows[0];
-  const match = await bcrypt.compare(password, user.password);
 
+  if (!user.is_verified) {
+    return res.send("Please verify your email first");
+  }
+
+  const match = await bcrypt.compare(password, user.password);
   if (!match) {
-    return res.status(401).send("Invalid password");
+    return res.send("Invalid password");
   }
 
   const token = jwt.sign(
@@ -49,7 +58,39 @@ exports.login = async (req, res) => {
     { expiresIn: "1h" }
   );
 
-  res.cookie("token", token);
-
+  res.cookie("token", token, { httpOnly: true });
   res.redirect("/dashboard");
+};
+
+exports.showVerifyOtp = (req, res) => {
+  res.render("verifyOtp", {
+    email: req.query.email,
+    error: null,
+  });
+};
+
+exports.verifyOtp = async (req, res) => {
+  const { email, otp } = req.body;
+
+  const result = await pool.query("SELECT * FROM users WHERE email=$1", [
+    email,
+  ]);
+
+  const user = result.rows[0];
+
+  if (!user || user.otp !== otp || new Date(user.otp_expiry) < new Date()) {
+    return res.render("verifyOtp", {
+      email,
+      error: "Invalid or expired OTP",
+    });
+  }
+
+  await pool.query(
+    `UPDATE users
+     SET is_verified=true, otp=NULL, otp_expiry=NULL
+     WHERE email=$1`,
+    [email]
+  );
+
+  res.redirect("/login");
 };

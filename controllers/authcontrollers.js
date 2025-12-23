@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const otp = Math.floor(100000 + Math.random() * 900000);
-  const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+  const otpExpiry = Date.now() + 5 * 60 * 1000;
 
   await pool.query(
     `INSERT INTO users (name, email, password, otp, otp_expiry)
@@ -77,8 +77,11 @@ exports.verifyOtp = async (req, res) => {
   ]);
 
   const user = result.rows[0];
-
-  if (!user || user.otp !== otp || new Date(user.otp_expiry) < new Date()) {
+  if (
+    !user ||
+    user.otp != otp ||
+    Number(Date.now()) > Number(user.otp_expiry)
+  ) {
     return res.render("verifyOtp", {
       email,
       error: "Invalid or expired OTP",

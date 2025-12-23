@@ -6,10 +6,9 @@ const jwt = require("jsonwebtoken");
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  const existing = await pool.query(
-    "SELECT id FROM users WHERE email=$1",
-    [email]
-  );
+  const existing = await pool.query("SELECT id FROM users WHERE email=$1", [
+    email,
+  ]);
 
   if (existing.rows.length > 0) {
     return res.status(400).send("User already exists");
@@ -22,17 +21,16 @@ exports.register = async (req, res) => {
     [name, email, hashedPassword]
   );
 
- res.redirect("/login");
+  res.redirect("/login");
 };
 
 /* LOGIN */
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  const result = await pool.query(
-    "SELECT * FROM users WHERE email=$1",
-    [email]
-  );
+  const result = await pool.query("SELECT * FROM users WHERE email=$1", [
+    email,
+  ]);
 
   if (result.rows.length === 0) {
     return res.status(401).send("User not found");
@@ -51,6 +49,7 @@ exports.login = async (req, res) => {
     { expiresIn: "1h" }
   );
 
- 
+  res.cookie("token", token);
+
   res.redirect("/dashboard");
 };

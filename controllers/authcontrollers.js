@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendOtpMail } = require("../utils/sendMail");
 
-/* ================= REGISTER ================= */
+
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -32,7 +32,7 @@ exports.register = async (req, res) => {
   res.redirect(`/verify-otp?email=${email}`);
 };
 
-/* ================= LOGIN ================= */
+
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -66,7 +66,7 @@ exports.login = async (req, res) => {
   res.redirect("/dashboard");
 };
 
-/* ================= SHOW OTP PAGE ================= */
+
 exports.showVerifyOtp = (req, res) => {
   res.render("verifyOtp", {
     email: req.query.email,
@@ -74,7 +74,7 @@ exports.showVerifyOtp = (req, res) => {
   });
 };
 
-/* ================= VERIFY OTP ================= */
+
 exports.verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 

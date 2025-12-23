@@ -1,6 +1,6 @@
 exports.isAdmin=(req,res,next)=>{
-    if(req.session.user.role==="admin")
+    if(req.user.role==="admin")
         next();
     else
-            res.send("access denied")
+            res.status(403).send("Access denied");
     }

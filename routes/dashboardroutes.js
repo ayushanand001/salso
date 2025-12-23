@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const { isAuthenticated } = require("../middlewares/authMiddlewares");
+const { verifyToken } = require("../middlewares/authMiddlewares");
 const { isAdmin } = require("../middlewares/roleMiddlewares");
 
-router.get("/dashboard", isAuthenticated, (req, res) => {
-  res.render("dashboard", { user: req.session.user });
+router.get("/dashboard", verifyToken, (req, res) => {
+  res.render("dashboard", { user: req.user });
 });
 
-router.get("/admin", isAuthenticated, isAdmin, (req, res) => {
+router.get("/admin", verifyToken, isAdmin, (req, res) => {
   res.render("admin");
 });
 

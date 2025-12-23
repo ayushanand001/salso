@@ -12,5 +12,9 @@ router.get("/login",(req,res)=>{
 });
 router.post("/register",auth.register);
 router.post("/login",auth.login);
-router.get("/logout",auth.logout);
+router.get("/logout",(req,res)=>{
+    
+    res.clearCookie("token");
+    res.redirect("/login");
+});
 module.exports=router;

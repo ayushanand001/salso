@@ -1,28 +1,22 @@
 require("dotenv").config();
+
 const express = require("express");
-const session = require("express-session");
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
-
-require("dotenv").config();
-require("express-session")
-
+const cookieParser = require("cookie-parser");
 
 const app = express();
 
-mongoose.connect(process.env.MONGO_URI);
-
+// view engine
 app.set("view engine", "ejs");
+
+// middleware
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(cookieParser());
 
-app.use(session({
-  secret: "secretkey",
-  resave: false,
-  saveUninitialized: false
-}));
-
+// routes
 app.use("/", require("./routes/authroutes"));
 app.use("/", require("./routes/dashboardroutes"));
 
-app.listen(3000, () => console.log("Server started"));
+// server
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server started");
+});

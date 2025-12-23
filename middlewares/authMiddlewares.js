@@ -1,8 +1,8 @@
 const jwt = require("jsonwebtoken");
 
-exports.verifyToken = (req, res, next) => {
-  const token = req.cookies.token;
-
+exports.verifyToken = async (req, res, next) => {
+  const token = await req.cookies.token;
+  console.log(token);
   if (!token) {
     return res.redirect("/login");
   }

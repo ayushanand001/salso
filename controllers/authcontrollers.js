@@ -2,7 +2,7 @@ const pool = require("../db/db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendOtpMail } = require("../utils/sendMail");
-
+//registering part where otp is generated and sent to mail
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
@@ -17,7 +17,7 @@ exports.register = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const otp = Math.floor(100000 + Math.random() * 900000);
-  const otpExpiry = Date.now() + 5 * 60 * 1000;
+ const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
   await pool.query(
     `INSERT INTO users (name, email, password, otp, otp_expiry)
@@ -29,7 +29,7 @@ exports.register = async (req, res) => {
 
   res.redirect(`/verify-otp?email=${email}`);
 };
-
+//login part where token is generated after verifying user
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
@@ -60,16 +60,16 @@ exports.login = async (req, res) => {
   );
 
   res.cookie("token", token, { httpOnly: true });
-  res.redirect("/dashboard");
+  res.redirect("/salons");
 };
-
+//otp verification part
 exports.showVerifyOtp = (req, res) => {
   res.render("verifyOtp", {
     email: req.query.email,
     error: null,
   });
 };
-
+//otp verification part
 exports.verifyOtp = async (req, res) => {
   const { email, otp } = req.body;
 
@@ -99,12 +99,12 @@ exports.verifyOtp = async (req, res) => {
   res.redirect("/login");
 };
 
-//new part
+//resend otp part
 exports.resendOtp = async (req, res) => {
   const email = req.query.email;
   console.log(email);
   const otp = Math.floor(100000 + Math.random() * 900000);
-  const otpExpiry = Date.now() + 5 * 60 * 1000;
+ const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
   try {
     await pool.query(

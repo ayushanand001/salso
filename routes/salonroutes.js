@@ -2,15 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { verifyToken } = require("../middlewares/authMiddlewares");
 const { isAdmin } = require("../middlewares/roleMiddlewares");
+const salonController = require("../controllers/saloncontrollers");
 
 
-router.get("/dashboard", verifyToken, (req, res) => {
-  console.log("hello");
-  res.render("dashboard", { user: req.user });
-});
+router.get("/salons", verifyToken, salonController.getAllSalons);
+  
 
-router.get("/admin", verifyToken, isAdmin, (req, res) => {
-  res.render("admin");
-});
+router.get("/salons/:id", verifyToken, salonController.getSalonsById);
+ 
+
 
 module.exports = router;

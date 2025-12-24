@@ -1,23 +1,55 @@
 <%- include("partials/header") %>
 
-  <h2 class="text-xl font-semibold text-center mb-4">Register</h2>
+  <div class="text-center mb-8">
+    <h2 class="text-3xl font-bold text-gray-800 mb-2">Create Account</h2>
+    <p class="text-gray-500">Join us today and get started</p>
+  </div>
 
   <% if (typeof error !=="undefined" ) { %>
-    <p class="text-red-500 text-center mb-3">
-      <%= error %>
-    </p>
+    <div class="mb-6 p-4 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+      <div class="flex items-center">
+        <span class="text-red-600 text-sm font-medium">
+          <%= error %>
+        </span>
+      </div>
+    </div>
     <% } %>
 
-      <form action="/register" method="POST" class="space-y-3">
-        <input type="text" name="name" placeholder="Name" class="w-full border p-2 rounded" required>
+      <form action="/register" method="POST" class="space-y-5">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+          <input type="text" name="name" placeholder="Enter your full name"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            required>
+        </div>
 
-        <input type="email" name="email" placeholder="Email" class="w-full border p-2 rounded" required>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+          <input type="email" name="email" placeholder="Enter your email"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            required>
+        </div>
 
-        <input type="password" name="password" placeholder="Password" class="w-full border p-2 rounded" required>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+          <input type="password" name="password" placeholder="Create a strong password"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+            required>
+        </div>
 
-        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-          Register
+        <button type="submit"
+          class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-3 rounded-lg hover:from-blue-700 hover:to-indigo-700 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+          Create Account
         </button>
       </form>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Already have an account?
+          <a href="/login" class="text-blue-600 hover:text-blue-700 font-medium hover:underline transition-colors">
+            Sign in here
+          </a>
+        </p>
+      </div>
 
       <%- include("partials/footer") %>

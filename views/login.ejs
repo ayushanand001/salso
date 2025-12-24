@@ -1,18 +1,21 @@
 <%- include("partials/header") %>
 
-<h2 class="text-xl font-semibold text-center mb-4">Login</h2>
+  <h2 class="text-xl font-semibold text-center mb-4">Login</h2>
 
-<form action="/login" method="POST" class="space-y-3">
-  <input type="email" name="email" placeholder="Email"
-    class="w-full border p-2 rounded" required>
+  <% if (typeof error !=="undefined" ) { %>
+    <p class="text-red-500 text-center mb-3">
+      <%= error %>
+    </p>
+    <% } %>
 
-  <input type="password" name="password" placeholder="Password"
-    class="w-full border p-2 rounded" required>
+      <form action="/login" method="POST" class="space-y-3">
+        <input type="email" name="email" placeholder="Email" class="w-full border p-2 rounded" required>
 
-  <button type="submit"
-    class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
-    Login
-  </button>
-</form>
+        <input type="password" name="password" placeholder="Password" class="w-full border p-2 rounded" required>
 
-<%- include("partials/footer") %>
+        <button type="submit" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+          Login
+        </button>
+      </form>
+
+      <%- include("partials/footer") %>

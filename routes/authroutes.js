@@ -22,4 +22,8 @@ router.get("/logout", (req, res) => {
   res.clearCookie("token");
   res.redirect("/login");
 });
+
+//new part
+router.get("/resendOtp", auth.resendOtp);
+
 module.exports = router;

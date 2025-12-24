@@ -38,18 +38,19 @@ exports.login = async (req, res) => {
   ]);
 
   if (result.rows.length === 0) {
-    return res.send("User not found");
+    return res.render("login", { error: "user not found" });
   }
 
   const user = result.rows[0];
 
-  if (!user.is_verified) {
-    return res.send("Please verify your email first");
+  const match = await bcrypt.compare(password, user.password);
+
+  if (!match) {
+    return res.render("login", { error: "Invalid password" });
   }
 
-  const match = await bcrypt.compare(password, user.password);
-  if (!match) {
-    return res.send("Invalid password");
+  if (!user.is_verified) {
+    return res.redirect(`/resendOtp/?email=${email}`);
   }
 
   const token = jwt.sign(
@@ -79,7 +80,7 @@ exports.verifyOtp = async (req, res) => {
   const user = result.rows[0];
   if (
     !user ||
-    user.otp != otp ||
+    String(user.otp) !== String(otp) ||
     Number(Date.now()) > Number(user.otp_expiry)
   ) {
     return res.render("verifyOtp", {
@@ -96,4 +97,28 @@ exports.verifyOtp = async (req, res) => {
   );
 
   res.redirect("/login");
+};
+
+//new part
+exports.resendOtp = async (req, res) => {
+  const email = req.query.email;
+  console.log(email);
+  const otp = Math.floor(100000 + Math.random() * 900000);
+  const otpExpiry = Date.now() + 5 * 60 * 1000;
+
+  try {
+    await pool.query(
+      `UPDATE users
+     SET otp=$1, otp_expiry=$2
+     WHERE email=$3`,
+      [otp, otpExpiry, email]
+    );
+
+    await sendOtpMail(email, otp);
+
+    res.redirect(`/verify-otp?email=${email}`);
+  } catch (err) {
+    console.log(err);
+    res.render("login", { error: "could not resend otp. please try again" });
+  }
 };

@@ -1,25 +1,23 @@
 <%- include("partials/header") %>
 
-<h2 class="text-xl font-semibold text-center mb-4">Register</h2>
+  <h2 class="text-xl font-semibold text-center mb-4">Register</h2>
 
-<% if (typeof error !== "undefined") { %>
-  <p class="text-red-500 text-center mb-3"><%= error %></p>
-<% } %>
+  <% if (typeof error !=="undefined" ) { %>
+    <p class="text-red-500 text-center mb-3">
+      <%= error %>
+    </p>
+    <% } %>
 
-<form action="/register" method="POST" class="space-y-3">
-  <input type="text" name="name" placeholder="Name"
-    class="w-full border p-2 rounded" required>
+      <form action="/register" method="POST" class="space-y-3">
+        <input type="text" name="name" placeholder="Name" class="w-full border p-2 rounded" required>
 
-  <input type="email" name="email" placeholder="Email"
-    class="w-full border p-2 rounded" required>
+        <input type="email" name="email" placeholder="Email" class="w-full border p-2 rounded" required>
 
-  <input type="password" name="password" placeholder="Password"
-    class="w-full border p-2 rounded" required>
+        <input type="password" name="password" placeholder="Password" class="w-full border p-2 rounded" required>
 
-  <button type="submit"
-    class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
-    Register
-  </button>
-</form>
+        <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+          Register
+        </button>
+      </form>
 
-<%- include("partials/footer") %>
+      <%- include("partials/footer") %>

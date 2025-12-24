@@ -1,112 +1,216 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Salons</title>
+  <title>Salso Premium | Luxury Grooming</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    * { font-family: 'Inter', sans-serif; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .glass-dark {
+      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .luxury-card {
+      background: white;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 1px solid #f1f5f9;
+    }
+
+    .luxury-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+      border-color: #E2B171;
+    }
+
+    .gold-gradient {
+      background: linear-gradient(135deg, #E2B171 0%, #B88A44 100%);
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 via-teal-50 to-cyan-50 min-h-screen">
 
-  <!-- Navbar -->
-  <nav class="bg-gradient-to-r from-teal-900 via-cyan-800 to-emerald-900 shadow-xl border-b border-teal-700">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex items-center space-x-2">
-          <span class="text-2xl">💇</span>
-          <h1 class="text-2xl font-bold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Salon Finder</h1>
+<body class="bg-[#FBFCFE] text-[#0F172A] pb-24 md:pb-0">
+
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-10">
+        <h1 class="text-2xl font-extrabold tracking-tighter text-[#0F172A] hidden md:block">
+          SALSO<span class="text-[#E2B171]">.</span>
+        </h1>
+        <div class="flex flex-col">
+          <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Current Studio</span>
+          <div class="flex items-center gap-1 cursor-pointer group">
+            <span class="font-bold text-xs md:text-sm group-hover:text-[#E2B171] transition">Indiranagar, BLR</span>
+            <i class="fa-solid fa-location-dot text-[10px] text-[#E2B171]"></i>
+          </div>
         </div>
-        <a href="/logout" class="px-4 py-2 text-sm font-medium text-red-300 hover:text-red-200 hover:bg-red-900/30 rounded-lg transition-all duration-200">
-          Logout
-        </a>
       </div>
+
+      <div class="hidden md:flex relative w-1/3">
+        <input type="text" placeholder="Search luxury services..."
+          class="w-full h-11 bg-slate-50 border border-slate-100 rounded-full pl-12 pr-4 text-sm focus:ring-2 focus:ring-[#E2B171] focus:bg-white transition-all outline-none">
+        <i class="fa-solid fa-magnifying-glass absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"></i>
+      </div>
+
+      <div class="flex items-center gap-6">
+        <button
+          class="hidden md:block text-xs font-bold uppercase tracking-widest text-slate-500 hover:text-[#E2B171]">Memberships</button>
+        <form action="/logout" method="POST">
+          <button
+            class="w-10 h-10 rounded-xl bg-[#0F172A] text-white flex items-center justify-center hover:bg-[#E2B171] transition-all shadow-lg">
+            <i class="fa-solid fa-crown text-sm"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="px-5 pb-4 md:hidden">
+      <div class="relative">
+        <input type="text" placeholder="What are you looking for?"
+          class="w-full h-12 bg-slate-100 border-none rounded-xl pl-12 pr-4 text-sm focus:ring-2 focus:ring-[#E2B171] outline-none">
+        <i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 md:px-8 mt-8">
+
+    <section
+      class="hidden md:block mb-12 h-60 rounded-[2.5rem] bg-[#0F172A] p-12 text-white relative overflow-hidden shadow-2xl">
+      <div class="relative z-10 max-w-md">
+        <span class="text-[#E2B171] font-bold text-xs uppercase tracking-[0.3em]">Exclusive Offer</span>
+        <h2 class="text-4xl font-extrabold mt-2 leading-tight">Elevate Your Lifestyle Presence.</h2>
+        <p class="mt-4 text-slate-400 text-sm">Complimentary facial on your first grooming session.</p>
+        <button
+          class="mt-6 gold-gradient text-[#0F172A] px-8 py-3 rounded-full font-extrabold text-xs uppercase tracking-wider hover:scale-105 transition">Reserve
+          Now</button>
+      </div>
+      <div
+        class="absolute right-0 top-0 h-full w-1/2 bg-[url('https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=800')] bg-cover opacity-40">
+      </div>
+    </section>
+
+    <div class="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
+      <button
+        class="px-6 py-2.5 bg-[#0F172A] text-white rounded-full text-[11px] font-bold uppercase tracking-wider shadow-xl">All
+        Studios</button>
+      <button
+        class="px-6 py-2.5 bg-white border border-slate-100 rounded-full text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:border-[#E2B171]">Top
+        Rated</button>
+      <button
+        class="px-6 py-2.5 bg-white border border-slate-100 rounded-full text-[11px] font-bold uppercase tracking-wider text-slate-500 hover:border-[#E2B171]">Home
+        Service</button>
+    </div>
+
+    <div class="flex justify-between items-end mt-10 mb-8">
+      <h2 class="text-2xl md:text-3xl font-extrabold tracking-tighter text-[#0F172A]">Curated Selection</h2>
+      <a href="#"
+        class="text-[#E2B171] text-xs font-bold uppercase tracking-widest border-b-2 border-[#E2B171] pb-1">View All</a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+      <% salons.forEach(salon=> { %>
+        <div class="luxury-card group rounded-[2rem] overflow-hidden flex flex-col h-full">
+          <div class="relative overflow-hidden h-60">
+            <img src="<%= salon.image_url %>"
+              class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
+            <div
+              class="absolute top-5 left-5 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-star text-[#E2B171] text-[10px]"></i>
+              <span class="text-[11px] font-bold text-[#0F172A]">
+                <%= salon.rating %>
+              </span>
+            </div>
+          </div>
+
+          <div class="p-7 flex flex-col flex-grow">
+            <h3 class="font-extrabold text-lg text-[#0F172A] group-hover:text-[#E2B171] transition-colors">
+              <%= salon.name %>
+            </h3>
+            <p class="text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-1">
+              <%= salon.location %>
+            </p>
+
+            <div class="flex items-center gap-4 mt-6 mb-8 text-slate-400">
+              <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-hourglass-start text-[10px] text-[#E2B171]"></i>
+                <span class="text-[10px] font-bold italic">Quick 15m</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-diamond text-[10px] text-[#E2B171]"></i>
+                <span class="text-[10px] font-bold uppercase tracking-tighter">Premium</span>
+              </div>
+            </div>
+
+            <div class="mt-auto flex justify-between items-center border-t border-slate-50 pt-6">
+              <div class="flex flex-col">
+                <span class="text-[9px] text-slate-400 font-black uppercase">From</span>
+                <span class="text-xl font-extrabold text-[#0F172A]">₹<%= Math.floor(Math.random() * 500) + 500 %></span>
+              </div>
+              <a href="/salons/<%= salon.id %>">
+                <button
+                  class="bg-[#0F172A] text-white px-7 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#E2B171] transition-all active:scale-95 shadow-lg shadow-slate-200">
+                  Book
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+    </div>
+  </main>
+
+  <nav
+    class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-50 px-8 py-5 flex justify-between items-center z-50 md:hidden rounded-t-[2rem] shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+    <div class="flex flex-col items-center gap-1.5 text-[#0F172A]">
+      <i class="fa-solid fa-compass text-lg"></i>
+      <span class="text-[8px] font-black uppercase tracking-widest">Home</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 text-slate-300">
+      <i class="fa-solid fa-search text-lg"></i>
+      <span class="text-[8px] font-black uppercase tracking-widest">Search</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 text-slate-300">
+      <i class="fa-solid fa-calendar text-lg"></i>
+      <span class="text-[8px] font-black uppercase tracking-widest">Reservations</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 text-slate-300">
+      <i class="fa-solid fa-crown text-lg"></i>
+      <span class="text-[8px] font-black uppercase tracking-widest">Elite</span>
     </div>
   </nav>
 
-  <!-- Hero Section with Search Bar -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="text-center mb-8">
-      <h2 class="text-4xl font-bold text-gray-800 mb-3">Discover Amazing Salons</h2>
-      <p class="text-gray-600 text-lg">Find the perfect salon near you</p>
-    </div>
-
-    <!-- Search Bar -->
-    <div class="max-w-2xl mx-auto mb-10">
-      <div class="relative">
-        <input
-          type="text"
-          placeholder="Search salons by name or location..."
-          class="w-full px-6 py-4 pl-12 rounded-xl border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent shadow-lg bg-white text-gray-800 placeholder-gray-400 transition-all duration-200"
-        />
-        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 text-xl">🔍</span>
+  <footer class="hidden md:block bg-[#0F172A] text-white mt-24 py-16">
+    <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8">
+      <h1 class="text-2xl font-black tracking-tighter">SALSO<span class="text-[#E2B171]">.</span></h1>
+      <p class="text-slate-500 text-xs font-bold uppercase tracking-widest">Premium Salon Network • 2025</p>
+      <div class="flex gap-8 text-xs font-bold uppercase tracking-widest">
+        <a href="#" class="hover:text-[#E2B171]">Legal</a>
+        <a href="#" class="hover:text-[#E2B171]">Partners</a>
+        <a href="#" class="hover:text-[#E2B171]">Support</a>
       </div>
     </div>
-
-    <!-- Salon Cards -->
-    <div class="max-w-7xl mx-auto">
-      <% if (salons.length === 0) { %>
-        <div class="bg-white rounded-2xl shadow-xl p-12 text-center">
-          <div class="text-6xl mb-4">💇‍♀️</div>
-          <p class="text-xl text-gray-600 font-medium">No salons available at the moment</p>
-          <p class="text-gray-500 mt-2">Check back later for new listings</p>
-        </div>
-      <% } else { %>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          <% salons.forEach(function(salon) { %>
-            <div class="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-100 group">
-              
-              <!-- Card Header with Gradient -->
-              <div class="bg-gradient-to-r from-teal-500 via-cyan-500 to-emerald-500 p-6">
-                <h2 class="text-2xl font-bold text-white group-hover:scale-105 transition-transform duration-300">
-                  <%= salon.name %>
-                </h2>
-              </div>
-
-              <!-- Card Body -->
-              <div class="p-6 space-y-4">
-                <div class="flex items-start space-x-3">
-                  <span class="text-xl mt-1">📍</span>
-                  <div>
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Location</p>
-                    <p class="text-gray-800 font-semibold mt-1">
-                      <%= salon.location %>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="flex items-start space-x-3">
-                  <span class="text-xl mt-1">📞</span>
-                  <div>
-                    <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Phone</p>
-                    <p class="text-gray-800 font-semibold mt-1">
-                      <%= salon.phone %>
-                    </p>
-                  </div>
-                </div>
-
-                <div class="pt-4 border-t border-gray-200">
-                  <a
-                    href="/salons/<%= salon.id %>"
-                    class="block w-full text-center bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-semibold py-3 px-6 rounded-lg hover:from-teal-700 hover:to-cyan-700 shadow-md hover:shadow-lg transition-all duration-300 transform hover:scale-105"
-                  >
-                    View Details →
-                  </a>
-                </div>
-              </div>
-
-            </div>
-          <% }) %>
-        </div>
-      <% } %>
-    </div>
-  </div>
-
-  <!-- Footer Spacing -->
-  <div class="h-12"></div>
+  </footer>
 
 </body>
+
 </html>

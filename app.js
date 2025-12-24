@@ -10,11 +10,12 @@ app.set("view engine", "ejs");
 
 // middleware
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cookieParser());
 
 // routes
 app.use("/", require("./routes/authroutes"));
-app.use("/", require("./routes/dashboardroutes"));
+app.use("/", require("./routes/salonroutes"));
 
 // server
 app.listen(process.env.PORT || 3000, () => {

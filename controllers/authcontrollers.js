@@ -20,8 +20,6 @@ exports.register = async (req, res) => {
 
   const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 
-
-
   await pool.query(
     `INSERT INTO users (name, email, password, otp, otp_expiry)
      VALUES ($1,$2,$3,$4,$5)`,
@@ -105,7 +103,6 @@ exports.verifyOtp = async (req, res) => {
 //resend otp part
 exports.resendOtp = async (req, res) => {
   const email = req.query.email;
-  console.log(email);
   const otp = Math.floor(100000 + Math.random() * 900000);
   const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
 

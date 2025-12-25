@@ -107,8 +107,8 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-6">
-                  <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || feature.feature_price || '0' %>
-                      </span>
+                  <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || '0' %>
+                  </span>
                   <div class="flex items-center gap-2">
                     <button method="POST" onclick=addprice(feature.feature_price)
                       class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center group-hover:bg-[#0F172A] group-hover:border-[#0F172A] transition">

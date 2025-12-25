@@ -109,13 +109,15 @@
                 <div class="flex items-center gap-6">
                   <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || feature.feature_price || '0' %></span>
                   <div class="flex items-center gap-2">
-                    <button method="POST" onclick=addprice(feature.feature_price)
-                      class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center group-hover:bg-[#0F172A] group-hover:border-[#0F172A] transition">
-                      <i class="fa-solid fa-minus text-slate-400 group-hover:text-white text-xs"></i>
+                    <button
+                      onclick="removePrice(<%= feature.price || feature.feature_price || 0 %>)"
+                      class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center hover:bg-[#0F172A] hover:border-[#0F172A] transition">
+                      <i class="fa-solid fa-minus text-slate-400 hover:text-white text-xs"></i>
                     </button>
-                    <button method="POST" onclick=decreaseprice(feature.feature_price)
-                      class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center group-hover:bg-[#0F172A] group-hover:border-[#0F172A] transition">
-                      <i class="fa-solid fa-plus text-slate-400 group-hover:text-white text-xs"></i>
+                    <button
+                      onclick="addPrice(<%= feature.price || feature.feature_price || 0 %>)"
+                      class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center hover:bg-[#0F172A] hover:border-[#0F172A] transition">
+                      <i class="fa-solid fa-plus text-slate-400 hover:text-white text-xs"></i>
                     </button>
                   </div>
                 </div>
@@ -159,7 +161,7 @@
           <div class="space-y-3 mb-8">
             <div class="flex justify-between text-xs font-medium">
               <span class="text-slate-400">Service Subtotal</span>
-              <span class="font-bold">₹899</span>
+              <span id="totalAmount" class="font-bold">₹899</span>
             </div>
             <div class="flex justify-between text-xs font-medium">
               <span class="text-slate-400">Convenience Fee</span>
@@ -167,7 +169,7 @@
             </div>
             <div class="flex justify-between items-center pt-3 border-t border-slate-50">
               <span class="font-extrabold">Total Amount</span>
-              <span class="text-xl font-black text-[#0F172A]">₹948</span>
+              <span id="totalAmount1" class="text-xl font-black text-[#0F172A]">₹0</span>
             </div>
           </div>
 
@@ -189,7 +191,7 @@
     class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-xl border-t border-slate-100 md:hidden flex justify-between items-center z-50">
     <div>
       <span class="text-[10px] font-black text-slate-400 uppercase">Items (1)</span>
-      <p id="amount" class="text-lg font-black"></p>
+      <p id="mobileTotalAmount" class="text-lg font-black">₹0</p>
     </div>
     <button
       class="gold-gradient text-[#0F172A] px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg">
@@ -197,22 +199,27 @@
     </button>
   </div>
 
-
 <script>
-  function addprice(price) {
-    function addPrice(price) {
-    total += price;
-    document.getElementById("amount").innerText = total;
-  }
+  let total = 0;
+
+  function updateUI() {
+    let grandtotal = total + 49; // Adding convenience fee
+    document.getElementById("totalAmount").innerText = "₹" + total;
+    document.getElementById("mobileTotalAmount").innerText = "₹" + total;
+    document.getElementById("totalAmount1").innerText = "₹" + grandtotal;
   }
 
-  function decreaseprice(price) {
-    function decreasePrice(price) {
-    total -= price;
-    document.getElementById("amount").innerText = total;
+  function addPrice(price) {
+    total += parseFloat(price);
+    updateUI();
   }
+
+  function removePrice(price) {
+    total -= parseFloat(price);
+    if (total < 0) total = 0;
+    updateUI();
   }
-  </script>
+</script>
   </body>
 
 </html>

@@ -107,7 +107,7 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-6">
-                  <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || '0' %>
+                  <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || feature.feature_price || '0' %>
                   </span>
                   <div class="flex items-center gap-2">
                     <button onclick="removePrice(<%= feature.price || feature.feature_price || 0 %>)"
@@ -172,7 +172,7 @@
             </div>
           </div>
 
-          <button
+          <button onclick="sendTotal()" action="/checkout" method="POST"
             class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
             Confirm Reservation
           </button>
@@ -200,12 +200,13 @@
 
   <script>
     let total = 0;
+    let grandtotal = 0;
 
     function updateUI() {
-      let grandtotal = total + 49; // Adding convenience fee
+      grandtotal = total + 49; // Adding convenience fee
       document.getElementById("totalAmount").innerText = "₹" + total;
-      document.getElementById("mobileTotalAmount").innerText = "₹" + total;
       document.getElementById("totalAmount1").innerText = "₹" + grandtotal;
+
     }
 
     function addPrice(price) {
@@ -218,6 +219,8 @@
       if (total < 0) total = 0;
       updateUI();
     }
+
+
   </script>
 </body>
 

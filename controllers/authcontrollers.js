@@ -61,7 +61,13 @@ exports.login = async (req, res) => {
   );
 
   res.cookie("token", token, { httpOnly: true });
-  res.redirect("/salons");
+  
+  // Redirect based on user role
+  if (user.role === "admin") {
+    res.redirect("/salons/owners");
+  } else {
+    res.redirect("/salons");
+  }
 };
 //otp verification part
 exports.showVerifyOtp = (req, res) => {

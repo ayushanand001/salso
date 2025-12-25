@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.post('/', (req, res) => {
+router.post("/checkout", (req, res) => {
   const { subtotal, grandtotal } = req.body;
   console.log(subtotal, grandtotal);
 

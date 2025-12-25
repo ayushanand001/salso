@@ -8,4 +8,5 @@ router.get("/salons", verifyToken, salonController.getAllSalons);
 
 router.get("/salons/:id", verifyToken, salonController.getSalonsById);
 
+router.get("/api/salons/search",verifyToken,salonController.searchSalons);
 module.exports = router;

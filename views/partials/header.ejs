@@ -3,33 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Auth App</title>
+  <title>Salso Premium | Luxury Grooming</title>
 
-  <!-- ✅ Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    * { font-family: 'Inter', sans-serif; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      letter-spacing: -0.01em;
+    }
+
+    .gold-gradient {
+      background: linear-gradient(135deg, #E2B171 0%, #B88A44 100%);
+    }
+
+    .glass-nav {
+      backdrop-filter: blur(12px);
+      background: rgba(255, 255, 255, 0.8);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 min-h-screen">
+<body class="bg-[#FBFCFE] text-[#0F172A] min-h-screen">
 
-<nav class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 shadow-lg border-b border-gray-700">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <div class="flex items-center space-x-1">
-        <div class="flex-shrink-0">
-          <span class="text-2xl font-bold bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">🔐 Auth</span>
-        </div>
-      </div>
-      <div class="flex items-center space-x-1">
-        <a href="/" class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">Home</a>
-        <a href="/login" class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">Login</a>
-        <a href="/register" class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-lg transition-all duration-200">Register</a>
-        <a href="/logout" class="px-4 py-2 text-sm font-medium text-red-400 hover:text-red-300 hover:bg-red-900/30 rounded-lg transition-all duration-200">Logout</a>
-      </div>
+<header class="sticky top-0 z-50 glass-nav border-b border-slate-100">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-extrabold tracking-tighter">
+      <a href="/">SALSO<span class="text-[#E2B171]">.</span></a>
+    </h1>
+    <div class="flex items-center gap-4">
+      <a href="/" class="text-sm font-bold text-slate-600 hover:text-[#0F172A] transition-colors">Home</a>
+      <a href="/login" class="text-sm font-bold text-slate-600 hover:text-[#0F172A] transition-colors">Login</a>
+      <a href="/register" class="text-sm font-bold text-slate-600 hover:text-[#0F172A] transition-colors">Register</a>
+      <form action="/logout" method="POST" class="inline">
+        <button type="submit" class="w-10 h-10 rounded-xl bg-[#0F172A] text-white flex items-center justify-center hover:bg-[#E2B171] transition-all">
+          <i class="fa-solid fa-crown"></i>
+        </button>
+      </form>
     </div>
   </div>
-</nav>
+</header>
 
-<div class="max-w-md mx-auto mt-10 bg-white p-8 rounded-2xl shadow-2xl border border-gray-100">
+<div class="max-w-md mx-auto mt-10 bg-white p-8 rounded-[2rem] shadow-xl border border-slate-100">

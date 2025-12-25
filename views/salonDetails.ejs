@@ -172,10 +172,14 @@
             </div>
           </div>
 
-          <button onclick="sendTotal()" action="/checkout" method="POST"
-            class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
-            Confirm Reservation
-          </button>
+          <form id="confirm-booking" method="POST" action="/checkout">
+            <input id="sub" type="hidden" name="subtotal" value=0>
+            <input id="grand" type="hidden" name="grandtotal" value=0>
+            <button type="submit" onclick="sendTotal()"
+              class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
+              Confirm Reservation
+            </button>
+          </form>
 
           <p class="text-center text-[10px] text-slate-400 mt-6 font-medium">
             <i class="fa-solid fa-shield-check mr-1"></i> Secure checkout powered by SALSO Pay
@@ -220,7 +224,11 @@
       updateUI();
     }
 
-
+    function sendTotal() {
+      document.querySelector("#sub").value = total;
+      document.querySelector("#grand").value = grandtotal;
+      document.querySelector("#confirm-booking").submit();
+    }
   </script>
 </body>
 

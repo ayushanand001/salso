@@ -88,8 +88,8 @@
 
         <h3 class="text-2xl font-extrabold mb-6">Service Menu</h3>
         <div class="space-y-4">
-          <% const services=['Signature Haircut', 'Luxury Shave' , 'Deep Tissue Massage' , 'Express Facial' ]; %>
-            <% services.forEach(service=> { %>
+          <% if (typeof features !== 'undefined' && features.length > 0) { %>
+            <% features.forEach(feature=> { %>
               <div
                 class="service-card group border border-slate-100 p-6 rounded-[2rem] flex justify-between items-center transition-all cursor-pointer bg-white">
                 <div class="flex gap-5 items-center">
@@ -98,21 +98,34 @@
                     <i class="fa-solid fa-scissors text-slate-400 group-hover:text-[#E2B171]"></i>
                   </div>
                   <div>
-                    <h4 class="font-bold text-slate-800">
-                      <%= service %>
+                    <h4 class="font-bold text-slate-800 text-[23px]">
+                      <%= feature.feature_name %>
                     </h4>
-                    <p class="text-[11px] text-slate-400 font-medium">45 mins • Includes steam & style</p>
+                    <p class="text-[12px] text-slate-400 font-medium">
+                     Duration: <%= feature.duration_minutes || 'N/A' %>
+                    </p>
                   </div>
                 </div>
                 <div class="flex items-center gap-6">
-                  <span class="font-extrabold text-[#0F172A]">₹899</span>
-                  <button
-                    class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center group-hover:bg-[#0F172A] group-hover:border-[#0F172A] transition">
-                    <i class="fa-solid fa-plus text-slate-400 group-hover:text-white text-xs"></i>
-                  </button>
+                  <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || feature.feature_price || '0' %></span>
+                  <div class="flex items-center gap-2">
+                    <button method="POST" onclick=addprice(feature.feature_price)
+                      class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center group-hover:bg-[#0F172A] group-hover:border-[#0F172A] transition">
+                      <i class="fa-solid fa-minus text-slate-400 group-hover:text-white text-xs"></i>
+                    </button>
+                    <button method="POST" onclick=decreaseprice(feature.feature_price)
+                      class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center group-hover:bg-[#0F172A] group-hover:border-[#0F172A] transition">
+                      <i class="fa-solid fa-plus text-slate-400 group-hover:text-white text-xs"></i>
+                    </button>
+                  </div>
                 </div>
               </div>
-              <% }); %>
+            <% }); %>
+          <% } else { %>
+            <div class="text-center py-8 text-slate-400">
+              <p class="text-sm font-medium">No features available for this salon</p>
+            </div>
+          <% } %>
         </div>
       </div>
 
@@ -176,7 +189,7 @@
     class="fixed bottom-0 left-0 right-0 p-4 bg-white/80 backdrop-blur-xl border-t border-slate-100 md:hidden flex justify-between items-center z-50">
     <div>
       <span class="text-[10px] font-black text-slate-400 uppercase">Items (1)</span>
-      <p class="text-lg font-black">₹948</p>
+      <p id="amount" class="text-lg font-black"></p>
     </div>
     <button
       class="gold-gradient text-[#0F172A] px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg">
@@ -184,6 +197,22 @@
     </button>
   </div>
 
-</body>
+
+<script>
+  function addprice(price) {
+    function addPrice(price) {
+    total += price;
+    document.getElementById("amount").innerText = total;
+  }
+  }
+
+  function decreaseprice(price) {
+    function decreasePrice(price) {
+    total -= price;
+    document.getElementById("amount").innerText = total;
+  }
+  }
+  </script>
+  </body>
 
 </html>

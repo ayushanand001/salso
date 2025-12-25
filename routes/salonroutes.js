@@ -10,4 +10,8 @@ router.get("/salons/:id", verifyToken, salonController.getSalonsById);
 
 router.get("/api/salons/search", verifyToken, salonController.searchSalons);
 router.get("/api/salons/:id/features", verifyToken, salonController.implementSaloonFeatures);
+router.use(express.urlencoded({ extended: true }));
+module.exports = router;
+
+
 module.exports = router;

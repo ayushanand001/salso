@@ -16,6 +16,7 @@ app.use(cookieParser());
 // routes
 app.use("/", require("./routes/authroutes"));
 app.use("/", require("./routes/salonroutes"));
+app.use('/checkout', require('./routes/gettinggdt'));
 
 // server
 app.listen(process.env.PORT || 3000, () => {

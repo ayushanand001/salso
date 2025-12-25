@@ -17,7 +17,11 @@ exports.register = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const otp = Math.floor(100000 + Math.random() * 900000);
+<<<<<<< HEAD
   const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
+=======
+  const otpExpiry = Date.now() + 5 * 60 * 1000;
+>>>>>>> efb160ffbd737e5a2cbb85146bb23a764298724a
 
   await pool.query(
     `INSERT INTO users (name, email, password, otp, otp_expiry)

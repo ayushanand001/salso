@@ -7,7 +7,8 @@ const salonController = require("../controllers/saloncontrollers");
 
 
 router.get("/salons/:id", verifyToken, salonController.getSalonsById);
-router.get("/salons",verifyToken,isAdmin ,(req,res)=>{res.render("salonDashboard")});
+router.get("/salons/owners",verifyToken,isAdmin ,(req,res)=>{res.render("salonDashboard")});
+router.get("/salons",verifyToken,salonController.getAllSalons);
 
 router.get("/api/salons/search",verifyToken,salonController.searchSalons);
 module.exports = router;

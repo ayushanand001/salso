@@ -1,7 +1,10 @@
+
+
+
 exports.isAdmin=(req,res,next)=>{
-    if(req.user.role==="admin")
+    if(req.user.role==="admin")//jaha jaha admin hai waha usko salonowner samjho
         next();
    
     else
-            router.get("/salons", verifyToken, salonController.getAllSalons);
+        res.status(403).send("Access denied. Admins only.");
     }

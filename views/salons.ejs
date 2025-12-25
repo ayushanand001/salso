@@ -302,12 +302,11 @@
 
               </div>
 
-              <button
-                class="bg-[#0F172A] text-white px-7 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#E2B171] transition-all active:scale-95 shadow-lg shadow-slate-200">
-
+              <a href="/salons/<%= salon.id %>"
+                class="bg-[#0F172A] text-white px-7 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#E2B171] transition-all active:scale-95 shadow-lg shadow-slate-200 inline-block text-center">
                 Book
 
-              </button>
+              </a>
 
             </div>
 
@@ -432,7 +431,128 @@
       console.warn(`ERROR(${err.code}): ${err.message}`);
     }
 
-    document.addEventListener("DOMContentLoaded", getSalonDistance);
+    document.addEventListener("DOMContentLoaded", () => {
+      getSalonDistance();
+
+      // Search functionality
+      let searchTimeout;
+      const desktopSearchInput = document.querySelector('header input[type="text"]');
+      const mobileSearchInput = document.querySelector('.md\\:hidden input[type="text"]');
+      const salonContainer = document.getElementById('salonContainer');
+      let originalSalonsHTML = null;
+
+      // Store original HTML on page load
+      if (salonContainer) {
+        originalSalonsHTML = salonContainer.innerHTML;
+      }
+
+    async function performSearch(searchQuery) {
+      try {
+        const response = await fetch(`/api/salons/search?search=${encodeURIComponent(searchQuery)}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Search failed');
+        }
+
+        const salons = await response.json();
+        updateSalonContainer(salons);
+      } catch (error) {
+        console.error('Error searching salons:', error);
+        // On error, restore original salons
+        if (originalSalonsHTML) {
+          salonContainer.innerHTML = originalSalonsHTML;
+        }
+      }
+    }
+
+    function updateSalonContainer(salons) {
+      salonContainer.innerHTML = '';
+      
+      if (salons.length === 0) {
+        salonContainer.innerHTML = '<div class="col-span-full text-center py-12"><p class="text-slate-400 text-sm">No salons found</p></div>';
+        return;
+      }
+
+      salons.forEach(salon => {
+        const salonCard = document.createElement('div');
+        salonCard.className = 'luxury-card group rounded-[2rem] overflow-hidden flex flex-col h-full';
+        salonCard.innerHTML = `
+          <div class="relative overflow-hidden h-60">
+            <img src="${salon.image_url || 'https://via.placeholder.com/400x300'}"
+              class="w-full h-full object-cover grayscale-[20%] group-hover:grayscale-0 transition-all duration-700">
+            <div
+              class="absolute top-5 left-5 bg-white/90 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1.5 shadow-sm">
+              <i class="fa-solid fa-star text-[#E2B171] text-[10px]"></i>
+              <span class="text-[11px] font-bold text-[#0F172A]">
+                ${salon.rating || '4.5'}
+              </span>
+            </div>
+          </div>
+          <div class="p-7 flex flex-col flex-grow">
+            <h3 class="font-extrabold text-lg text-[#0F172A] group-hover:text-[#E2B171] transition-colors">
+              ${salon.name}
+            </h3>
+            <p class="text-slate-400 text-[11px] font-bold uppercase tracking-widest mt-1">
+              ${salon.location}
+            </p>
+            <div class="flex items-center gap-4 mt-6 mb-8 text-slate-400">
+              <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-hourglass-start text-[10px] text-[#E2B171]"></i>
+                <span class="text-[10px] font-bold italic">Quick 15m</span>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <i class="fa-solid fa-diamond text-[10px] text-[#E2B171]"></i>
+                <span class="text-[10px] font-bold uppercase tracking-tighter">Premium</span>
+              </div>
+            </div>
+            <div class="mt-auto flex justify-between items-center border-t border-slate-50 pt-6">
+              <div class="flex flex-col">
+                <span class="text-[9px] text-slate-400 font-black uppercase">From</span>
+                <span class="text-xl font-extrabold text-[#0F172A]">₹${Math.floor(Math.random() * 500) + 500}</span>
+              </div>
+              <a href="/salons/${salon.id}"
+                class="bg-[#0F172A] text-white px-7 py-3 rounded-xl text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#E2B171] transition-all active:scale-95 shadow-lg shadow-slate-200 inline-block text-center">
+                Book
+              </a>
+            </div>
+          </div>
+        `;
+        salonContainer.appendChild(salonCard);
+      });
+    }
+
+    function handleSearch(event) {
+      const searchQuery = event.target.value.trim();
+      
+      clearTimeout(searchTimeout);
+      
+      if (searchQuery === '') {
+        // Restore original salons if search is cleared
+        if (originalSalonsHTML) {
+          salonContainer.innerHTML = originalSalonsHTML;
+        }
+        return;
+      }
+
+      searchTimeout = setTimeout(() => {
+        performSearch(searchQuery);
+      }, 300); // Debounce: wait 300ms after user stops typing
+    }
+
+      // Attach event listeners to search inputs
+      if (desktopSearchInput) {
+        desktopSearchInput.addEventListener('input', handleSearch);
+      }
+      if (mobileSearchInput) {
+        mobileSearchInput.addEventListener('input', handleSearch);
+      }
+    });
   </script>
 
 

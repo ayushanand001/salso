@@ -24,6 +24,16 @@ exports.getSalonsById = async (req, res) => {
     res.status(500).send("Error fetching salon details");
   }
 };
+exports.getSalonsByRole = async (req, res) => {
+  try {
+    // This route is for admin/salon owners dashboard
+    res.render("salonDashboard");
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error loading salon dashboard");
+  }
+};
+
 exports.searchSalons = async (req, res) => {
   try {
     const search = req.query.search || "";

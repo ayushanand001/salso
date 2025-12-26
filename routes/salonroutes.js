@@ -6,8 +6,9 @@ const salonController = require("../controllers/saloncontrollers");
 
 router.get(
   "/salons/:email",
-  verifyToken, isAdmin,
- salonController.getSalonsByemail
+  verifyToken,
+  isAdmin,
+  salonController.getSalonsByemail
 );
 router.get("/salons", verifyToken, salonController.getAllSalons);
 router.get("/salon/:id", verifyToken, salonController.getSalonsById);

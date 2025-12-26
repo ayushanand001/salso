@@ -1,12 +1,13 @@
 const express = require("express");
 const crypto = require("crypto");
 const router = express.Router();
+const { SendOrderConfirmationMail } = require("../utils/sendMail");
 
 const MERCHANT_KEY = process.env.PAYU_MERCHANT_KEY || "vwhwP1";
 const MERCHANT_SALT = process.env.PAYU_MERCHANT_SALT || "mrMkAlEm3KR528jpIoGPJ3jCh5fDw6F0";
 const PAYU_BASE = process.env.PAYU_BASE || "https://test.payu.in";
 
-router.post("/pay", (req, res) => {
+router.post("/pay", async (req, res) => {
   const { amount, firstname, email, salon_id } = req.body;
 
   const txnid = "TXN" + Date.now();
@@ -20,6 +21,8 @@ router.post("/pay", (req, res) => {
     .update(hashString)
     .digest("hex");
   const baseUrl = process.env.BASE_URL || `http://localhost:${process.env.PORT || 3000}`;
+  console.log("Email:", email, "Salon ID:", salon_id);
+  
 
   res.render("payuform", {
     key: MERCHANT_KEY,
@@ -34,11 +37,14 @@ router.post("/pay", (req, res) => {
     furl: `${baseUrl}/payment-failure`,
     payu_url: PAYU_BASE + '/_payment'
   });
+  await SendOrderConfirmationMail(email, salon_id);
 });
 
 
+
+
 // PayU will POST the response to these endpoints.
-router.post('/payment-success', (req, res) => {
+router.post('/payment-success', async (req, res) => {
   // Verify response hash
   const body = req.body || {};
   const status = body.status || '';
@@ -49,6 +55,11 @@ router.post('/payment-success', (req, res) => {
 
   const valid = (calculatedHash === (body.hash || '').toString());
 
+
+ 
+  
+ 
+  
   res.render('payment-success', { data: body, valid, calculatedHash });
 });
 

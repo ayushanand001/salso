@@ -31,7 +31,6 @@ exports.getSalonsById = async (req, res) => {
   }
 };
 
-
 exports.searchSalons = async (req, res) => {
   try {
     const search = req.query.search || "";
@@ -69,11 +68,12 @@ exports.getSalonsByemail = async (req, res) => {
   try {
     // Use authenticated user's email from the JWT
     const email = req.params && req.params.email;
-   
+
     if (!email) {
       return res.status(400).send("Owner email not available");
     }
 
+<<<<<<< HEAD
     const result = await pool.query(
       "SELECT * FROM salons WHERE email=$1",
       [email]
@@ -83,6 +83,11 @@ exports.getSalonsByemail = async (req, res) => {
       "SELECT * FROM bookings WHERE salon_id=$1",
       [salon_id]  
     )
+=======
+    const result = await pool.query("SELECT * FROM salons WHERE email=$1", [
+      email,
+    ]);
+>>>>>>> 0f3580a8b0e5dbd765adf45db891f0fa6a9344de
 
     if (result.rows.length === 0) {
       // render dashboard with no salon (view will show friendly message)
@@ -94,4 +99,4 @@ exports.getSalonsByemail = async (req, res) => {
     console.error(err);
     res.status(500).send("Error fetching owner's salons");
   }
-}
+};

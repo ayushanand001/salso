@@ -123,3 +123,118 @@
 </style>
 
 <%- include("partials/footer") %>
+=======
+  <div class="min-h-screen bg-slate-50 py-16 px-6">
+
+    <% if (!salon) { %>
+      <!-- EMPTY STATE -->
+      <div class="max-w-xl mx-auto bg-white p-12 rounded-[2.5rem] border border-slate-100 shadow-2xl text-center">
+        <div class="w-24 h-24 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-8">
+          <i class="fa-solid fa-shop-slash text-4xl text-[#E2B171]"></i>
+        </div>
+
+        <h2 class="text-4xl font-extrabold tracking-tighter text-[#0F172A] mb-4">
+          No Salon Found
+        </h2>
+
+        <p class="text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
+          Your account is not yet associated with any salon.
+          Please contact the administrator or create a salon to unlock your dashboard.
+        </p>
+
+        <a href="/support"
+          class="inline-block mt-10 px-10 py-4 bg-[#0F172A] text-white font-extrabold rounded-2xl shadow-xl hover:bg-[#E2B171] transition-all duration-300 transform hover:-translate-y-1 uppercase text-xs tracking-widest">
+          Contact Support
+        </a>
+      </div>
+
+      <% } else { %>
+
+        <!-- HERO -->
+        <div class="max-w-5xl mx-auto text-center mb-16">
+          <p class="text-slate-400 text-xs font-bold uppercase tracking-widest mb-3">
+            Salon Dashboard
+          </p>
+
+          <h1 class="text-5xl md:text-6xl font-extrabold tracking-tighter text-[#0F172A]">
+            <%= salon.name || "Salon" %>
+          </h1>
+
+          <p class="text-lg text-slate-500 mt-4 font-medium max-w-2xl mx-auto">
+            Manage your salon profile, bookings, and premium services from one place.
+          </p>
+        </div>
+
+        <!-- DETAILS CARD -->
+        <div class="max-w-5xl mx-auto bg-white rounded-[2.5rem] p-10 border border-slate-100 shadow-2xl">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- LOCATION -->
+            <div class="flex items-start gap-5">
+              <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
+                <i class="fa-solid fa-location-dot text-xl text-[#E2B171]"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+                  Location
+                </p>
+                <p class="text-lg font-extrabold text-[#0F172A]">
+                  <%= salon.location || "N/A" %>
+                </p>
+              </div>
+            </div>
+
+            <!-- ADDRESS -->
+            <div class="flex items-start gap-5">
+              <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
+                <i class="fa-solid fa-map text-xl text-[#E2B171]"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+                  Address
+                </p>
+                <p class="text-lg font-extrabold text-[#0F172A] leading-snug">
+                  <%= salon.address || "N/A" %>
+                </p>
+              </div>
+            </div>
+
+            <!-- PHONE -->
+            <div class="flex items-start gap-5">
+              <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
+                <i class="fa-solid fa-phone text-xl text-[#E2B171]"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+                  Phone
+                </p>
+                <p class="text-lg font-extrabold text-[#0F172A]">
+                  <%= salon.phone || "N/A" %>
+                </p>
+              </div>
+            </div>
+
+            <!-- OWNER EMAIL -->
+            <div class="flex items-start gap-5">
+              <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center">
+                <i class="fa-solid fa-envelope text-xl text-[#E2B171]"></i>
+              </div>
+              <div>
+                <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">
+                  Owner Email
+                </p>
+                <p class="text-lg font-extrabold text-[#0F172A] break-all">
+                  <%= salon.owner_email || "N/A" %>
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <% } %>
+
+  </div>
+
+  <%- include("partials/footer") %>
+>>>>>>> 0f3580a8b0e5dbd765adf45db891f0fa6a9344de

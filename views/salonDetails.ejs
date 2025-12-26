@@ -119,11 +119,13 @@
                   <span class="font-extrabold text-[#0F172A]">₹<%= feature.price || feature.feature_price || '0' %>
                   </span>
                   <div class="flex items-center gap-2">
-                    <button onclick="removePrice(<%= feature.price || feature.feature_price || 0 %>)"
+                    <button
+                      onclick="removePrice(<%= feature.price || feature.feature_price || 0 %>, '<%= feature.feature_name %>')"
                       class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center hover:bg-[#0F172A] hover:border-[#0F172A] transition">
                       <i class="fa-solid fa-minus text-slate-400 hover:text-white text-xs"></i>
                     </button>
-                    <button onclick="addPrice(<%= feature.price || feature.feature_price || 0 %>)"
+                    <button
+                      onclick="addPrice(<%= feature.price || feature.feature_price || 0 %>,  '<%= feature.feature_name %>')"
                       class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center hover:bg-[#0F172A] hover:border-[#0F172A] transition">
                       <i class="fa-solid fa-plus text-slate-400 hover:text-white text-xs"></i>
                     </button>
@@ -189,6 +191,7 @@
             <input id="salon" type="hidden" name="salon_id" value=0>
             <input id="dayslot" type="hidden" name="dayslot" value=''>
             <input id="timeslot" type="hidden" name="timeslot" value=''>
+            <input id="selected_service" type="hidden" name="service" value=''>
             <button type="submit" onclick="sendTotal()"
               class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
               Confirm Reservation
@@ -221,6 +224,7 @@
     let grandtotal = 0;
     let timeslot = '';
     let dayslot = 'Mon 24';
+    let service = [];
     function updateUI() {
 
       grandtotal = total + 49; // Adding convenience fee
@@ -229,16 +233,21 @@
 
     }
 
-    function addPrice(price) {
+    function addPrice(price, feature) {
       total += parseFloat(price);
+      service.push(feature);
       updateUI();
     }
     function fetchid(id) {
       return id;
     }
 
-    function removePrice(price) {
-      total -= parseFloat(price);
+    function removePrice(price, feature) {
+      const index = service.indexOf(feature);
+      if (index > -1) {
+        total -= parseFloat(price);
+        service.splice(index, 1);
+      }
       if (total < 0) total = 0;
       updateUI();
     }
@@ -275,6 +284,16 @@
       document.querySelector("#salon").value = fetchid(<%= salon.id %>);
       document.querySelector("#dayslot").value = dayslot;
       document.querySelector("#timeslot").value = timeslot;
+      if (!timeslot) {
+        alert("Please select a valid time slot before confirming");
+        return;
+      }
+      if (!total) {
+        alert("Select at list one service to continue");
+        return;
+      }
+
+      document.querySelector("#selected_service").value = JSON.stringify(service);
       document.querySelector("#confirm-booking").submit();
     }
 

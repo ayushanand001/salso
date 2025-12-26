@@ -19,7 +19,6 @@ app.use("/", require("./routes/salonroutes"));
 app.use("/", require("./routes/gettinggdt"));
 app.use("/",require("./routes/payment"));
 
-
 // server
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server started");

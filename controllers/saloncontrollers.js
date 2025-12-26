@@ -64,6 +64,7 @@ exports.implementSaloonFeatures = async (req, res) => {
     res.status(500).json({ error: "Error fetching salon features" });
   }
 };
+
 exports.getSalonsByemail = async (req, res) => {
   try {
     // Use authenticated user's email from the JWT

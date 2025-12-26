@@ -1,4 +1,7 @@
 exports.isAdmin = (req, res, next) => {
-  if (req.user.role === "admin") res.render("salonDashboard");// Render admin dashboard 
-  else res.redirect("/salons");
+  // Allow both admin and owner to access the owner/admin salon dashboard
+  if (req.user && (req.user.role === "admin" || req.user.role === "owner")) {
+    return next();
+  }
+  return res.redirect("/salons");
 };

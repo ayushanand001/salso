@@ -45,6 +45,7 @@ exports.SendOrderConfirmationMail = async (to, booking_id) => {
 Your reservation at ${bookingDetails.name} has been successfully confirmed. We have scheduled your session, and the stylist will be ready for you at the selected time.
 
 Booking Details:
+
 Services: ${bookingDetails.feature_name}
 Date: ${bookingDetails.dayslot}
 Time Slot: ${bookingDetails.timeslot}

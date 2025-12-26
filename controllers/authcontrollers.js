@@ -55,19 +55,17 @@ exports.login = async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, role: user.role },
+    { id: user.id, role: user.role, email: user.email },
     process.env.JWT_SECRET,
     { expiresIn: "1h" }
   );
 
   res.cookie("token", token, { httpOnly: true });
-  
-  // Redirect based on user role
-  if (user.role === "admin") {
-    res.redirect("/salons/owners");
-  } else {
-    res.redirect("/salons");
+  // redirect owners and admins to the owner dashboard route
+  if (user.role === "admin" || user.role === "owner") {
+    return res.redirect(`/salons/${email}`);
   }
+  return res.redirect("/salons");
 };
 //otp verification part
 exports.showVerifyOtp = (req, res) => {

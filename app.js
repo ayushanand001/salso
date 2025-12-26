@@ -16,6 +16,7 @@ app.use(cookieParser());
 // routes
 app.use("/", require("./routes/authroutes"));
 app.use("/", require("./routes/salonroutes"));
+app.use("/", require("./routes/gettinggdt"));
 
 
 // server

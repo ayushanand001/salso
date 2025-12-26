@@ -17,8 +17,14 @@ exports.getSalonsById = async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).send("Salon not found");
     }
-const features=await pool.query("SELECT * FROM salon_features WHERE salon_id=$1",[salonId]);
-    res.render("salonDetails", { salon: result.rows[0], features: features.rows  });
+    const features = await pool.query(
+      "SELECT * FROM salon_features WHERE salon_id=$1",
+      [salonId]
+    );
+    res.render("salonDetails", {
+      salon: result.rows[0],
+      features: features.rows,
+    });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error fetching salon details");
@@ -55,13 +61,15 @@ exports.searchSalons = async (req, res) => {
     res.status(500).json({ error: "Error searching salons" });
   }
 };
-exports.implementSaloonFeatures=async(req,res)=>
-{
+exports.implementSaloonFeatures = async (req, res) => {
   try {
-    const features=await pool.query("SELECT * FROM salon_features WHERE salon_id=$1",[req.params.id]);
+    const features = await pool.query(
+      "SELECT * FROM salon_features WHERE salon_id=$1",
+      [req.params.id]
+    );
     res.json(features.rows);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error fetching salon features" });
   }
-}
+};

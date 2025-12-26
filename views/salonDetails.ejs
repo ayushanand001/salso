@@ -35,6 +35,15 @@
       position: sticky;
       top: 100px;
     }
+
+    .time-slot-btn.active {
+      border-color: #E2B171;
+      /* Gold border */
+      color: #E2B171;
+      /* Gold text */
+      background-color: rgba(226, 177, 113, 0.05);
+      /* Subtle gold tint */
+    }
   </style>
 </head>
 
@@ -148,10 +157,12 @@
               <% }); %>
           </div>
 
-          <div class="grid grid-cols-3 gap-3 mb-10">
-            <% ['10:00', '12:30' , '14:00' , '17:00' , '18:30' , '20:00' ].forEach(time=> { %>
+          <div class=" grid grid-cols-3 gap-3 mb-10">
+            <% ['10:00-10:30', '12:00-12:30' , '14:00-14:30' , '16:00-16:30' , '18:00-18:30' , '19:30-20:00'
+              ].forEach(time=>
+              { %>
               <button
-                class="py-3 text-[11px] font-bold rounded-xl border border-slate-100 hover:border-[#E2B171] hover:text-[#E2B171] transition">
+                class="time-slot-btn py-3 text-[11px] font-bold rounded-xl border border-slate-100 hover:border-[#E2B171] hover:text-[#E2B171] transition">
                 <%= time %>
               </button>
               <% }); %>
@@ -206,6 +217,7 @@
   <script>
     let total = 0;
     let grandtotal = 0;
+    let timeslot = '';
     function updateUI() {
 
       grandtotal = total + 49; // Adding convenience fee
@@ -228,10 +240,20 @@
       updateUI();
     }
 
+    const timeslot_btns = document.querySelectorAll(".time-slot-btn");
+    timeslot_btns.forEach(btn => {
+      btn.addEventListener("click", function () {
+        timeslot = this.innerText;
+        timeslot_btns.forEach(button => button.classList.remove("active"));
+        this.classList.add('active');
+      })
+    })
+
     function sendTotal() {
       document.querySelector("#sub").value = total;
       document.querySelector("#grand").value = grandtotal;
       document.querySelector("#salon").value = fetchid(<%= salon.id %>);
+      console.log(timeslot);
       document.querySelector("#confirm-booking").submit();
     }
 

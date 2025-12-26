@@ -175,6 +175,7 @@
           <form id="confirm-booking" method="POST" action="/checkout">
             <input id="sub" type="hidden" name="subtotal" value=0>
             <input id="grand" type="hidden" name="grandtotal" value=0>
+            <input id="salon" type="hidden" name="salon_id" value=0>
             <button type="submit" onclick="sendTotal()"
               class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
               Confirm Reservation
@@ -205,7 +206,6 @@
   <script>
     let total = 0;
     let grandtotal = 0;
-
     function updateUI() {
 
       grandtotal = total + 49; // Adding convenience fee
@@ -218,6 +218,9 @@
       total += parseFloat(price);
       updateUI();
     }
+    function fetchid(id){
+      return id;
+    }
 
     function removePrice(price) {
       total -= parseFloat(price);
@@ -228,6 +231,7 @@
     function sendTotal() {
       document.querySelector("#sub").value = total;
       document.querySelector("#grand").value = grandtotal;
+      document.querySelector("#salon").value = fetchid(<%= salon.id %>);
       document.querySelector("#confirm-booking").submit();
     }
 

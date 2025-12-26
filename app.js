@@ -18,6 +18,7 @@ app.use("/", require("./routes/authroutes"));
 app.use("/", require("./routes/salonroutes"));
 app.use("/", require("./routes/gettinggdt"));
 
+
 // server
 app.listen(process.env.PORT || 3000, () => {
   console.log("Server started");

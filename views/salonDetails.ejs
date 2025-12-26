@@ -75,7 +75,7 @@
             </h2>
             <p class="text-slate-400 font-medium flex items-center gap-2">
               <i class="fa-solid fa-location-dot text-[#E2B171]"></i>
-              <%= salon.location %>
+              <%= salon.address%> ,<%= salon.location %>
             </p>
           </div>
           <span
@@ -207,6 +207,7 @@
     let grandtotal = 0;
 
     function updateUI() {
+
       grandtotal = total + 49; // Adding convenience fee
       document.getElementById("totalAmount").innerText = "₹" + total;
       document.getElementById("totalAmount1").innerText = "₹" + grandtotal;
@@ -229,6 +230,7 @@
       document.querySelector("#grand").value = grandtotal;
       document.querySelector("#confirm-booking").submit();
     }
+
   </script>
 </body>
 

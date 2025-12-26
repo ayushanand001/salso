@@ -146,11 +146,11 @@
           <div class="flex gap-3 overflow-x-auto no-scrollbar mb-8">
             <% ['Mon', 'Tue' , 'Wed' , 'Thu' , 'Fri' ].forEach((day, i)=> { %>
               <div
-                class="flex-shrink-0 w-16 h-20 <%= i === 0 ? 'gold-gradient text-white' : 'bg-slate-50 text-slate-400' %> rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition">
-                <span class="text-[10px] font-bold uppercase">
+                class="day-slot flex-shrink-0 w-16 h-20 <%= i === 0 ? 'gold-gradient text-white' : 'bg-slate-50 text-slate-400' %> rounded-2xl flex flex-col items-center justify-center cursor-pointer hover:shadow-md transition">
+                <span class="span1 text-[10px] font-bold uppercase">
                   <%= day %>
                 </span>
-                <span class="text-lg font-black">
+                <span class="span2 text-lg font-black">
                   <%= 24 + i %>
                 </span>
               </div>
@@ -187,6 +187,8 @@
             <input id="sub" type="hidden" name="subtotal" value=0>
             <input id="grand" type="hidden" name="grandtotal" value=0>
             <input id="salon" type="hidden" name="salon_id" value=0>
+            <input id="dayslot" type="hidden" name="dayslot" value=''>
+            <input id="timeslot" type="hidden" name="timeslot" value=''>
             <button type="submit" onclick="sendTotal()"
               class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
               Confirm Reservation
@@ -218,6 +220,7 @@
     let total = 0;
     let grandtotal = 0;
     let timeslot = '';
+    let dayslot = 'Mon 24';
     function updateUI() {
 
       grandtotal = total + 49; // Adding convenience fee
@@ -249,11 +252,29 @@
       })
     })
 
+    const dayslot_btns = document.querySelectorAll(".day-slot");
+    dayslot_btns.forEach(btn => {
+      btn.addEventListener("click", function () {
+
+        dayslot = this.querySelector('.span1').innerText + ' ' + this.querySelector('.span2').innerText;
+        console.log(dayslot);
+        dayslot_btns.forEach(button => {
+          button.classList.remove("gold-gradient", "text-white");
+          button.classList.add("bg-slate-50", "text-slate-400");
+        });
+
+        this.classList.remove('bg-slate-50', 'text-slate-400');
+        this.classList.add("gold-gradient", "text-white");
+
+      })
+    })
+
     function sendTotal() {
       document.querySelector("#sub").value = total;
       document.querySelector("#grand").value = grandtotal;
       document.querySelector("#salon").value = fetchid(<%= salon.id %>);
-      console.log(timeslot);
+      document.querySelector("#dayslot").value = dayslot;
+      document.querySelector("#timeslot").value = timeslot;
       document.querySelector("#confirm-booking").submit();
     }
 

@@ -10,7 +10,6 @@
             </p>
         </div>
 
-        <!-- Main Card -->
         <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl">
 
             <div class="flex items-center justify-between mb-6">
@@ -27,7 +26,6 @@
                 </div>
             </div>
 
-            <!-- Order Details -->
             <div class="pt-6 border-t border-slate-100 space-y-4">
 
                 <div class="flex items-center justify-between">
@@ -37,6 +35,24 @@
                     <span
                         class="px-4 py-2 bg-slate-100 text-[#0F172A] text-xs font-extrabold rounded-full uppercase tracking-widest">
                         <%= salon_id %>
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                        Scheduled Day
+                    </span>
+                    <span class="font-extrabold text-[#0F172A]">
+                        <%= dayslot %>
+                    </span>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
+                        Time Slot
+                    </span>
+                    <span class="font-extrabold text-[#0F172A]">
+                        <%= timeslot %>
                     </span>
                 </div>
 
@@ -70,7 +86,6 @@
             </div>
         </div>
 
-        <!-- Actions -->
         <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <form action="/pay" method="POST"
@@ -79,6 +94,9 @@
                 <input type="hidden" name="salon_id" value="<%= salon_id %>">
                 <input type="hidden" name="grandtotal" value="<%= grandtotal %>">
                 <input type="hidden" name="amount" value="<%= grandtotal %>">
+
+                <input type="hidden" name="dayslot" value="<%= dayslot %>">
+                <input type="hidden" name="timeslot" value="<%= timeslot %>">
 
                 <% if (typeof user !=='undefined' && user && (user.name || user.email)) { %>
                     <input type="hidden" name="firstname" value="<%= user.name || '' %>">

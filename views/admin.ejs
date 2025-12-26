@@ -1,57 +1,60 @@
 <%- include("partials/header") %>
 
-<div class="space-y-8 pb-12">
-  <div class="text-center mb-10">
-    <h2 class="text-3xl font-extrabold tracking-tighter text-[#0F172A] mb-2">Admin Panel</h2>
-    <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">SALSO Premium</p>
+  <div class="space-y-8 pb-12">
+    <div class="text-center mb-10">
+      <h2 class="text-3xl font-extrabold tracking-tighter text-[#0F172A] mb-2">Admin Panel</h2>
+      <p class="text-slate-400 text-xs font-bold uppercase tracking-widest">SALSO Premium</p>
+    </div>
+
+    <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl">
+      <div class="flex items-start space-x-6">
+        <div class="w-16 h-16 bg-[#0F172A] rounded-2xl flex items-center justify-center flex-shrink-0">
+          <i class="fa-solid fa-shield-check text-2xl text-[#E2B171]"></i>
+        </div>
+        <div class="flex-1">
+          <h3 class="text-2xl font-extrabold tracking-tighter text-[#0F172A] mb-3">Administrative Access</h3>
+          <p class="text-slate-600 leading-relaxed font-medium">
+            Only users with <strong class="text-[#E2B171] font-extrabold">admin</strong> role can access this page.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
+      <div
+        class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
+        <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
+          <i class="fa-solid fa-users text-2xl text-[#E2B171]"></i>
+        </div>
+        <h4 class="font-extrabold text-[#0F172A] mb-2">User Management</h4>
+        <p class="text-sm text-slate-400 font-medium">Manage users and permissions</p>
+      </div>
+      <div
+        class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
+        <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
+          <i class="fa-solid fa-chart-bar text-2xl text-[#E2B171]"></i>
+        </div>
+        <h4 class="font-extrabold text-[#0F172A] mb-2">Analytics</h4>
+        <p class="text-sm text-slate-400 font-medium">View system statistics</p>
+      </div>
+      <div
+        class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
+        <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
+          <i class="fa-solid fa-gear text-2xl text-[#E2B171]"></i>
+        </div>
+        <h4 class="font-extrabold text-[#0F172A] mb-2">Configuration</h4>
+        <p class="text-sm text-slate-400 font-medium">System settings and options</p>
+      </div>
+    </div>
+
+    <div class="mt-10 bg-slate-50 border-l-4 border-[#E2B171] p-6 rounded-r-2xl">
+      <div class="flex items-center space-x-3">
+        <i class="fa-solid fa-info-circle text-[#E2B171]"></i>
+        <span class="text-[#0F172A] text-sm font-bold">
+          <strong>Note:</strong> You have full administrative privileges on SALSO.
+        </span>
+      </div>
+    </div>
   </div>
 
-  <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl">
-    <div class="flex items-start space-x-6">
-      <div class="w-16 h-16 bg-[#0F172A] rounded-2xl flex items-center justify-center flex-shrink-0">
-        <i class="fa-solid fa-shield-check text-2xl text-[#E2B171]"></i>
-      </div>
-      <div class="flex-1">
-        <h3 class="text-2xl font-extrabold tracking-tighter text-[#0F172A] mb-3">Administrative Access</h3>
-        <p class="text-slate-600 leading-relaxed font-medium">
-          Only users with <strong class="text-[#E2B171] font-extrabold">admin</strong> role can access this page.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-10">
-    <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
-      <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
-        <i class="fa-solid fa-users text-2xl text-[#E2B171]"></i>
-      </div>
-      <h4 class="font-extrabold text-[#0F172A] mb-2">User Management</h4>
-      <p class="text-sm text-slate-400 font-medium">Manage users and permissions</p>
-    </div>
-    <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
-      <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
-        <i class="fa-solid fa-chart-bar text-2xl text-[#E2B171]"></i>
-      </div>
-      <h4 class="font-extrabold text-[#0F172A] mb-2">Analytics</h4>
-      <p class="text-sm text-slate-400 font-medium">View system statistics</p>
-    </div>
-    <div class="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
-      <div class="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
-        <i class="fa-solid fa-gear text-2xl text-[#E2B171]"></i>
-      </div>
-      <h4 class="font-extrabold text-[#0F172A] mb-2">Configuration</h4>
-      <p class="text-sm text-slate-400 font-medium">System settings and options</p>
-    </div>
-  </div>
-
-  <div class="mt-10 bg-slate-50 border-l-4 border-[#E2B171] p-6 rounded-r-2xl">
-    <div class="flex items-center space-x-3">
-      <i class="fa-solid fa-info-circle text-[#E2B171]"></i>
-      <span class="text-[#0F172A] text-sm font-bold">
-        <strong>Note:</strong> You have full administrative privileges on SALSO.
-      </span>
-    </div>
-  </div>
-</div>
-
-<%- include("partials/footer") %>
+  <%- include("partials/footer") %>

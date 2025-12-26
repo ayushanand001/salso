@@ -79,16 +79,16 @@
                 class="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-lg hover:shadow-xl hover:border-[#E2B171] transition-all">
 
                 <input type="hidden" name="salon_id" value="<%= salon_id %>">
-                <input type="hidden" name="grandtotal" value="<%= grandtotal %>">
+                <input type="hidden" name="subtotal" value="<%= subtotal %>">
                 <input type="hidden" name="amount" value="<%= grandtotal %>">
 
                 <input type="hidden" name="dayslot" value="<%= dayslot %>">
                 <input type="hidden" name="timeslot" value="<%= timeslot %>">
-
+                <input type="hidden" name="feature_price" value='<%- JSON.stringify(features_price) %>'>
                 <% if (typeof user !=='undefined' && user && (user.name || user.email)) { %>
                     <input type="hidden" name="firstname" value="<%= user.name || '' %>">
                     <input type="hidden" name="email" value="<%= user.email || '' %>">
-                     <input type="hidden" name="salon_id" value="<%= salon_id %>">
+                    <input type="hidden" name="salon_id" value="<%= salon_id %>">
                     <% } else { %>
                         <div class="mb-3">
                             <label class="block text-sm text-slate-500">Full name</label>

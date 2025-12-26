@@ -1,10 +1,11 @@
 const express = require("express");
 const pool = require("../db/db");
 const router = express.Router();
+const { verifyToken } = require("../middlewares/authMiddlewares");
 
 module.exports = router;
 
-router.post("/checkout", async (req, res) => {
+router.post("/checkout", verifyToken, async (req, res) => {
   const { salon_id, dayslot, timeslot, service } = req.body;
 
   try {
@@ -46,6 +47,7 @@ router.post("/checkout", async (req, res) => {
     });
 
     grandtotal += subtotal;
+    console.log(features_price);
 
     if (grandtotal > 0) {
       res.render("paymentpage", {

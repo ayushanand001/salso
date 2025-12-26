@@ -53,11 +53,11 @@ router.post("/pay", verifyToken, async (req, res) => {
     hash,
     salon_id,
     productinfo,
-    surl: `${baseUrl}/payment-success?id=${booking.rows[0].id}`,
+    surl: `${baseUrl}/payment-success?id=${booking.rows[0].id}&email=${email}`,
     furl: `${baseUrl}/payment-failure`,
     payu_url: PAYU_BASE + "/_payment",
   });
-  await SendOrderConfirmationMail(email, salon_id);
+  // await SendOrderConfirmationMail(email, salon_id);
 });
 
 // PayU will POST the response to these endpoints.
@@ -66,7 +66,7 @@ router.post("/payment-success", async (req, res) => {
   const body = req.body || {};
   const status = body.status || "";
   const id = req.query.id;
-
+  const email = req.query.email;
   // Build hash string according to PayU response verification
   const responseHashString = `${MERCHANT_SALT}|${status}|||||||||||${
     body.email || ""
@@ -83,7 +83,12 @@ router.post("/payment-success", async (req, res) => {
     await pool.query("UPDATE bookings SET status='scheduled' where id=$1", [
       id,
     ]);
-    res.render("payment-success", { data: body, valid, calculatedHash });
+    await SendOrderConfirmationMail(email, id);
+    res.render("payment-success", {
+      data: body,
+      valid,
+      calculatedHash,
+    });
   } else res.redirect("/payment-failure");
 });
 

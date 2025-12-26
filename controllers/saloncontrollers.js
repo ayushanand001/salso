@@ -30,15 +30,7 @@ exports.getSalonsById = async (req, res) => {
     res.status(500).send("Error fetching salon details");
   }
 };
-exports.getSalonsByRole = async (req, res) => {
-  try {
-    // This route is for admin/salon owners dashboard
-    res.render("salonDashboard");
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error loading salon dashboard");
-  }
-};
+
 
 exports.searchSalons = async (req, res) => {
   try {
@@ -73,7 +65,28 @@ exports.implementSaloonFeatures = async (req, res) => {
     res.status(500).json({ error: "Error fetching salon features" });
   }
 };
-exports.sendOrderConfirmation = async (req, res) => 
-  {
-           
-  };
+exports.getSalonsByemail = async (req, res) => {
+  try {
+    // Use authenticated user's email from the JWT
+    const email = req.params && req.params.email;
+   
+    if (!email) {
+      return res.status(400).send("Owner email not available");
+    }
+
+    const result = await pool.query(
+      "SELECT * FROM salons WHERE email=$1",
+      [email]
+    );
+
+    if (result.rows.length === 0) {
+      // render dashboard with no salon (view will show friendly message)
+      return res.render("salonDashboard", { salon: null });
+    }
+
+    res.render("salonDashboard", { salon: result.rows[0] });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Error fetching owner's salons");
+  }
+}

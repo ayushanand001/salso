@@ -39,7 +39,8 @@ console.log(newvar.rows[0])
     text: `Dear Customer, 
 
 order has been successfully requested for the salon: ${newvar.rows[0].name} for your selected services.
-
+if your payment is failed you can alwaays pay at the salon directly.
+if you have any questions, feel free to reach out to us.
 We appreciate your business and look forward to serving you again.
 please complete payment to confirm your booking
 Thank you for shopping with us!

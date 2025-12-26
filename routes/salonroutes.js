@@ -5,13 +5,12 @@ const { isAdmin } = require("../middlewares/roleMiddlewares");
 const salonController = require("../controllers/saloncontrollers");
 
 router.get(
-  "/salons/owners",
-  verifyToken,
-  isAdmin,
-  salonController.getSalonsByRole
+  "/salons/:email",
+  verifyToken, isAdmin,
+ salonController.getSalonsByemail
 );
 router.get("/salons", verifyToken, salonController.getAllSalons);
-router.get("/salons/:id", verifyToken, salonController.getSalonsById);
+router.get("/salon/:id", verifyToken, salonController.getSalonsById);
 
 router.get("/api/salons/search", verifyToken, salonController.searchSalons);
 router.get(

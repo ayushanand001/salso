@@ -78,13 +78,18 @@ exports.getSalonsByemail = async (req, res) => {
       "SELECT * FROM salons WHERE email=$1",
       [email]
     );
+    const salon_id = result.rows[0].id;
+    const bookings =await pool.query(
+      "SELECT * FROM bookings WHERE salon_id=$1",
+      [salon_id]  
+    )
 
     if (result.rows.length === 0) {
       // render dashboard with no salon (view will show friendly message)
-      return res.render("salonDashboard", { salon: null });
+      return res.render("salonDashboard", { salon: null },);
     }
 
-    res.render("salonDashboard", { salon: result.rows[0] });
+    res.render("salonDashboard", { salon: result.rows[0], bookings: bookings.rows });
   } catch (err) {
     console.error(err);
     res.status(500).send("Error fetching owner's salons");

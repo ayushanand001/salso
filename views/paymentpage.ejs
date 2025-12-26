@@ -11,12 +11,9 @@
         </div>
 
         <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-xl">
-
             <div class="flex items-center justify-between mb-6">
                 <div>
-                    <p class="text-sm text-slate-400 font-bold uppercase tracking-widest mb-2">
-                        Booking for
-                    </p>
+                    <p class="text-sm text-slate-400 font-bold uppercase tracking-widest mb-2">Booking for</p>
                     <h3 class="text-3xl font-extrabold tracking-tighter text-[#0F172A]">
                         <%= salon_name %>
                     </h3>
@@ -26,66 +23,56 @@
                 </div>
             </div>
 
-            <div class="pt-6 border-t border-slate-100 space-y-4">
-
-                <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Salon ID
-                    </span>
-                    <span
-                        class="px-4 py-2 bg-slate-100 text-[#0F172A] text-xs font-extrabold rounded-full uppercase tracking-widest">
-                        <%= salon_id %>
-                    </span>
+            <div class="py-6 border-t border-slate-100">
+                <p class="text-sm text-slate-400 font-bold uppercase tracking-widest mb-4">Selected Services</p>
+                <div class="space-y-3">
+                    <% features_price.forEach(item=> { %>
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <span
+                                    class="w-6 h-6 bg-[#E2B171]/10 text-[#E2B171] text-[10px] font-black rounded-md flex items-center justify-center">
+                                    <%= item.quantity %>x
+                                </span>
+                                <span class="text-sm font-bold text-slate-700">
+                                    <%= item.feature %>
+                                </span>
+                            </div>
+                            <span class="text-sm font-extrabold text-[#0F172A]">₹<%= item.price %></span>
+                        </div>
+                        <% }) %>
                 </div>
+            </div>
 
+            <div class="pt-6 border-t border-slate-100 space-y-4">
                 <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Scheduled Day
-                    </span>
+                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">Scheduled Day</span>
                     <span class="font-extrabold text-[#0F172A]">
                         <%= dayslot %>
                     </span>
                 </div>
-
                 <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Time Slot
-                    </span>
+                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">Time Slot</span>
                     <span class="font-extrabold text-[#0F172A]">
                         <%= timeslot %>
                     </span>
                 </div>
 
-                <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Subtotal
-                    </span>
-                    <span class="font-extrabold text-[#0F172A]">
-                        ₹ <%= subtotal %>
-                    </span>
+                <div class="pt-4 border-t border-dashed border-slate-200 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">Subtotal</span>
+                        <span class="font-extrabold text-[#0F172A]">₹<%= subtotal %></span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">Service Fee</span>
+                        <span class="font-extrabold text-[#0F172A]">₹<%= grandtotal - subtotal %></span>
+                    </div>
+                    <div class="flex items-center justify-between pt-4">
+                        <span class="text-sm font-bold text-[#0F172A] uppercase tracking-widest">Grand Total</span>
+                        <span class="text-3xl font-black text-[#E2B171]">₹<%= grandtotal %></span>
+                    </div>
                 </div>
-
-                <div class="flex items-center justify-between">
-                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Service Tax
-                    </span>
-                    <span class="font-extrabold text-[#0F172A]">
-                        ₹ <%= grandtotal - subtotal %>
-                    </span>
-                </div>
-
-                <div class="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <span class="text-sm font-bold text-slate-400 uppercase tracking-widest">
-                        Grand Total
-                    </span>
-                    <span class="text-2xl font-extrabold text-[#E2B171]">
-                        ₹ <%= grandtotal %>
-                    </span>
-                </div>
-
             </div>
         </div>
-
         <div class="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <form action="/pay" method="POST"

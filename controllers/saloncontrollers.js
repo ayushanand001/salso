@@ -73,7 +73,6 @@ exports.getSalonsByemail = async (req, res) => {
       return res.status(400).send("Owner email not available");
     }
 
-<<<<<<< HEAD
     const result = await pool.query(
       "SELECT * FROM salons WHERE email=$1",
       [email]
@@ -83,11 +82,8 @@ exports.getSalonsByemail = async (req, res) => {
       "SELECT * FROM bookings WHERE salon_id=$1",
       [salon_id]  
     )
-=======
-    const result = await pool.query("SELECT * FROM salons WHERE email=$1", [
-      email,
-    ]);
->>>>>>> 0f3580a8b0e5dbd765adf45db891f0fa6a9344de
+
+
 
     if (result.rows.length === 0) {
       // render dashboard with no salon (view will show friendly message)

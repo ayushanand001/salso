@@ -18,6 +18,8 @@ app.use("/", require("./routes/authroutes"));
 app.use("/", require("./routes/salonroutes"));
 app.use("/", require("./routes/gettinggdt"));
 app.use("/",require("./routes/payment"));
+app.use("/", require("./routes/salondashboardroutes"));
+
 
 // server
 app.listen(process.env.PORT || 3000, () => {

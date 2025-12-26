@@ -77,6 +77,21 @@
 
       <input type="hidden" name="salon_id" value="<%= salon_id %>">
       <input type="hidden" name="grandtotal" value="<%= grandtotal %>">
+      <input type="hidden" name="amount" value="<%= grandtotal %>">
+
+      <% if (typeof user !== 'undefined' && user && (user.name || user.email)) { %>
+        <input type="hidden" name="firstname" value="<%= user.name || '' %>">
+        <input type="hidden" name="email" value="<%= user.email || '' %>">
+      <% } else { %>
+        <div class="mb-3">
+          <label class="block text-sm text-slate-500">Full name</label>
+          <input name="firstname" required class="w-full mt-2 p-3 border border-slate-100 rounded-lg" placeholder="Your name">
+        </div>
+        <div class="mb-3">
+          <label class="block text-sm text-slate-500">Email</label>
+          <input name="email" type="email" required class="w-full mt-2 p-3 border border-slate-100 rounded-lg" placeholder="you@example.com">
+        </div>
+      <% } %>
 
       <div class="w-12 h-12 bg-slate-50 rounded-2xl flex items-center justify-center mb-4">
         <i class="fa-solid fa-credit-card text-xl text-[#E2B171]"></i>
@@ -90,7 +105,7 @@
       </p>
 
       <button
-        type="submit"
+        type="submit"  
         class="w-full bg-[#0F172A] text-white font-extrabold py-4 px-6 rounded-2xl hover:bg-[#E2B171] transition-all uppercase text-xs tracking-widest">
         Pay Now
       </button>

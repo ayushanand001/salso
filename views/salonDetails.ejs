@@ -124,6 +124,10 @@
                       class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center hover:bg-[#0F172A] hover:border-[#0F172A] transition">
                       <i class="fa-solid fa-minus text-slate-400 hover:text-white text-xs"></i>
                     </button>
+                    <span id="qty-<%= feature.feature_name.replace(/\s+/g, '-') %>"
+                      class="font-black text-sm text-[#0F172A] min-w-[12px] text-center">
+                      0
+                    </span>
                     <button
                       onclick="addPrice(<%= feature.price || feature.feature_price || 0 %>,  '<%= feature.feature_name %>')"
                       class="w-8 h-8 rounded-full border-2 border-slate-100 flex items-center justify-center hover:bg-[#0F172A] hover:border-[#0F172A] transition">
@@ -192,7 +196,7 @@
             <input id="dayslot" type="hidden" name="dayslot" value=''>
             <input id="timeslot" type="hidden" name="timeslot" value=''>
             <input id="selected_service" type="hidden" name="service" value=''>
-            <button type="submit" onclick="sendTotal()"
+            <button type="submit" onclick="sendTotal(event)"
               class="w-full gold-gradient text-[#0F172A] py-5 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg shadow-[#E2B171]/20 hover:scale-[1.02] transition active:scale-95">
               Confirm Reservation
             </button>
@@ -213,7 +217,7 @@
       <span class="text-[10px] font-black text-slate-400 uppercase">Items (1)</span>
       <p id="mobileTotalAmount" class="text-lg font-black">₹0</p>
     </div>
-    <button
+    <button onclick="sendTotal(event)"
       class="gold-gradient text-[#0F172A] px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-lg">
       Confirm
     </button>
@@ -230,13 +234,36 @@
       grandtotal = total + 49; // Adding convenience fee
       document.getElementById("totalAmount").innerText = "₹" + total;
       document.getElementById("totalAmount1").innerText = "₹" + grandtotal;
+      document.getElementById("mobileTotalAmount").innerText = "₹" + grandtotal;
+    }
 
+    function updateQuantityDisplay(feature) {
+      // Find the count of this feature in our global 'service' array
+      const count = service.filter(f => f === feature).length;
+
+      // Create the ID the same way we did in HTML
+      const qtyId = "qty-" + feature.replace(/\s+/g, '-');
+      const element = document.getElementById(qtyId);
+
+      if (element) {
+        element.innerText = count;
+
+        // POP EFFECT: Add a little color pop when quantity > 0
+        if (count > 0) {
+          element.classList.add('text-[#E2B171]');
+          element.classList.remove('text-slate-300');
+        } else {
+          element.classList.remove('text-[#E2B171]');
+          element.classList.add('text-slate-300');
+        }
+      }
     }
 
     function addPrice(price, feature) {
       total += parseFloat(price);
       service.push(feature);
       updateUI();
+      updateQuantityDisplay(feature); // Update the counter
     }
     function fetchid(id) {
       return id;
@@ -247,6 +274,7 @@
       if (index > -1) {
         total -= parseFloat(price);
         service.splice(index, 1);
+        updateQuantityDisplay(feature); // Update the counter
       }
       if (total < 0) total = 0;
       updateUI();
@@ -278,22 +306,26 @@
       })
     })
 
-    function sendTotal() {
+    function sendTotal(event) {
+
+      event.preventDefault();
+
+      if (!timeslot) {
+        alert("Please select a valid time slot before confirming");
+        return;
+      }
+      if (total === 0) {
+        alert("Select at list one service to continue");
+        return;
+      }
+
       document.querySelector("#sub").value = total;
       document.querySelector("#grand").value = grandtotal;
       document.querySelector("#salon").value = fetchid(<%= salon.id %>);
       document.querySelector("#dayslot").value = dayslot;
       document.querySelector("#timeslot").value = timeslot;
-      if (!timeslot) {
-        alert("Please select a valid time slot before confirming");
-        return;
-      }
-      if (!total) {
-        alert("Select at list one service to continue");
-        return;
-      }
-
       document.querySelector("#selected_service").value = JSON.stringify(service);
+
       document.querySelector("#confirm-booking").submit();
     }
 

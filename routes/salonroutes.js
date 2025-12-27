@@ -12,6 +12,12 @@ router.get(
 );
 router.get("/salons", verifyToken, salonController.getAllSalons);
 router.get("/salon/:id", verifyToken, salonController.getSalonsById);
+router.get("/order-details", verifyToken, salonController.getOrderDetails);
+router.get(
+  "/order-details/:id",
+  verifyToken,
+  salonController.getOrderDetailsById
+);
 
 router.get("/api/salons/search", verifyToken, salonController.searchSalons);
 router.get(

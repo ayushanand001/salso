@@ -97,3 +97,54 @@ exports.getSalonsByemail = async (req, res) => {
     res.status(500).send("Error fetching owner's salons");
   }
 };
+
+exports.getOrderDetails = async (req, res) => {
+  try {
+    const bookings = await pool.query(
+      "SELECT  bookings.*, salons.name as salon_name, salons.image_url, salons.address, salons.location FROM bookings JOIN salons ON bookings.salon_id=salons.id WHERE bookings.user_id=$1 ORDER BY bookings.id DESC",
+      [req.user.id]
+    );
+
+    const currentBookings = bookings.rows.filter(
+      (a) => a.status === "scheduled" || a.status === "ongoing"
+    );
+    const previousBookings = bookings.rows.filter(
+      (a) =>
+        a.status === "completed" ||
+        a.status === "cancelled" ||
+        a.status === "pending"
+    );
+
+    res.render("bookingshistory", {
+      currentBookings,
+      previousBookings,
+      user: req.user,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};
+
+exports.getOrderDetailsById = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const bookings = await pool.query(
+      "SELECT  bookings.*, salons.name as salon_name, salons.image_url, salons.address, salons.location FROM bookings JOIN salons ON bookings.salon_id=salons.id WHERE bookings.id=$1 AND bookings.user_id=$2",
+      [id, req.user.id]
+    );
+
+    console.log(bookings.rows[0]);
+    if (bookings.rows.length === 0) {
+      return res.status(404).send("Order not found");
+    }
+
+    res.render("order-details", {
+      order: bookings.rows[0],
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send("server error");
+  }
+};

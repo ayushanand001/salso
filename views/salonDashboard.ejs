@@ -1,7 +1,61 @@
-<%- include("partials/header") %>
+<!-- Tailwind + fonts (inline for this view) -->
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <div
-    class="fixed inset-0 w-screen h-screen bg-white z-[9999] flex flex-col lg:flex-row overflow-hidden font-['Plus_Jakarta_Sans',sans-serif]">
+<!-- Inline header: translucent + backdrop blur -->
+<header class="sticky top-0 z-50 bg-white/5 backdrop-blur-md border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <h1 class="text-2xl font-extrabold tracking-tighter text-black">
+        <a href="/">SALSO<span class="text-[#E2B171]">.</span></a>
+      </h1>
+    </div>
+
+    <div class="flex items-center gap-4 relative">
+      <div class="relative">
+        <button id="salonProfileBtn" onclick="toggleSalonProfile()" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition text-black">
+          <% if (salon && salon.image_url) { %>
+            <img src="<%= salon.image_url %>" alt="<%= salon.name %>" class="w-10 h-10 rounded-full object-cover" />
+          <% } else { %>
+            <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold"><%= salon ? salon.name.charAt(0).toUpperCase() : 'S' %></div>
+          <% } %>
+          <span class="text-sm font-bold"><%= salon ? salon.name.split(' ')[0] : 'Salon' %></span>
+          <i class="fa-solid fa-caret-down text-sm"></i>
+        </button>
+
+        <div id="salonProfileDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg text-slate-800 ring-1 ring-black/5 overflow-hidden">
+          <div class="p-4 border-b border-slate-100">
+            <div class="flex items-center gap-3">
+              <% if (salon && salon.image_url) { %>
+                <img src="<%= salon.image_url %>" class="w-14 h-14 rounded-full object-cover" alt="<%= salon.name %>">
+              <% } else { %>
+                <div class="w-14 h-14 rounded-full bg-slate-200 flex items-center justify-center font-bold text-lg"> <%= salon ? salon.name.charAt(0).toUpperCase() : 'S' %> </div>
+              <% } %>
+              <div>
+                <div class="font-bold text-sm"><%= salon ? salon.name : 'Salon' %></div>
+                <div class="text-xs text-slate-500"><%= salon ? salon.location || salon.address || '' : '' %></div>
+              </div>
+            </div>
+          </div>
+          <div class="p-3 text-xs text-slate-600 space-y-2">
+            <div><strong>Email:</strong> <span class="text-slate-800"><%= salon ? salon.email || '-' : '-' %></span></div>
+            <div><strong>Phone:</strong> <span class="text-slate-800"><%= salon ? salon.phone || '-' : '-' %></span></div>
+            <div class="truncate"><strong>Address:</strong> <span class="text-slate-800"><%= salon ? salon.address || '-' : '-' %></span></div>
+          </div>
+          <div class="p-3 border-t border-slate-100 flex gap-2">
+            <a href="/salon/edit" class="flex-1 text-center px-3 py-2 bg-[#0F172A] text-white rounded text-sm">Edit Profile</a>
+            <form action="/logout" method="POST" class="m-0">
+              <button type="submit" class="px-3 py-2 bg-white/10 text-black rounded text-sm">Logout</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="min-h-screen bg-white flex flex-col lg:flex-row overflow-auto font-['Plus_Jakarta_Sans',sans-serif]">
 
     <% if (!salon) { %>
       <div class="w-full h-full flex items-center justify-center bg-slate-50">
@@ -39,6 +93,8 @@
                   <p class="text-white text-2xl font-bold truncate">
                     <%= salon.location %>
                   </p>
+
+        
                   <p class="text-slate-300 text-base mt-2 leading-relaxed max-w-sm">
                     <%= salon.address %>
                   </p>
@@ -69,8 +125,8 @@
           </div>
         </aside>
 
-        <main class="w-full lg:w-[60vw] h-full bg-white flex flex-col shrink-0">
-          <div class="flex-1 overflow-y-auto p-12 lg:p-20 custom-scroll">
+        <main class="w-full lg:w-[60vw] min-h-screen bg-white flex flex-col shrink-0">
+          <div class="flex-1 overflow-y-auto p-8 md:p-12 lg:p-20 custom-scroll">
             <div class="flex items-end justify-between mb-8">
               <div>
                 <h2 class="text-6xl lg:text-7xl font-black text-[#0F172A] tracking-tighter leading-none">Appointment
@@ -85,9 +141,9 @@
                   <button id="tab-history" onclick="showTab('history')"
                     class="px-6 py-3 text-sm font-black uppercase tracking-widest text-slate-400 rounded-full">History</button>
                 </div>
-                <button
-                  class="px-6 py-3 bg-[#0F172A] text-white font-black rounded-2xl hover:bg-[#E2B171] transition-all text-xs uppercase tracking-widest shadow-2xl">Export
-                  .CSV</button>
+                    <button
+                      class="px-6 py-3 bg-[#0F172A] text-white font-black rounded-2xl hover:bg-[#E2B171] transition-all text-xs uppercase tracking-widest shadow-2xl">Export
+                      .CSV</button>
               </div>
             </div>
 
@@ -208,7 +264,48 @@
 
         <% } %>
 
+</div>
+
+<!-- Improved footer -->
+<footer class="bg-gradient-to-t from-slate-900 via-slate-900/90 to-transparent text-white mt-12">
+  <div class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div>
+      <h2 class="text-2xl font-extrabold tracking-tight">SALSO<span class="text-[#E2B171]">.</span></h2>
+      <p class="text-slate-300 mt-3">Premium salon network connecting artisans with clients. Built for quality and reliability.</p>
+      <div class="flex items-center gap-3 mt-4 text-slate-400 text-sm">
+        <i class="fa-solid fa-phone"></i>
+        <span><%= salon ? salon.phone : '—' %></span>
+      </div>
+    </div>
+
+    <div class="flex flex-col">
+      <h3 class="text-sm font-black uppercase text-slate-400 mb-4">Quick Links</h3>
+      <a href="/" class="text-white hover:text-[#E2B171] mb-2">Home</a>
+      <a href="/salons" class="text-white hover:text-[#E2B171] mb-2">Salons</a>
+      <a href="/contact" class="text-white hover:text-[#E2B171] mb-2">Contact</a>
+    </div>
+
+    <div>
+      <h3 class="text-sm font-black uppercase text-slate-400 mb-4">Stay Connected</h3>
+      <p class="text-slate-300 mb-4 text-sm">Follow us for updates and offers.</p>
+      <div class="flex items-center gap-3">
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fa-brands fa-instagram text-white"></i></a>
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fa-brands fa-facebook text-white"></i></a>
+        <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20"><i class="fa-brands fa-twitter text-white"></i></a>
+      </div>
+    </div>
   </div>
+
+  <div class="border-t border-white/10 mt-4">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center text-sm text-slate-400">
+      <div>© <span id="year"><%= new Date().getFullYear() %></span> SALSO. All rights reserved.</div>
+      <div class="flex items-center gap-4 mt-3 md:mt-0">
+        <a href="#" class="hover:text-white">Privacy</a>
+        <a href="#" class="hover:text-white">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
 
   <script>
     // Script to update database via AJAX
@@ -262,11 +359,28 @@
 
     // Default to ledger
     document.addEventListener('DOMContentLoaded', function () { showTab('ledger'); });
+
+    // Salon profile dropdown toggle
+    function toggleSalonProfile() {
+      const dd = document.getElementById('salonProfileDropdown');
+      if (!dd) return;
+      dd.classList.toggle('hidden');
+    }
+
+    // Click outside to close
+    document.addEventListener('click', function (e) {
+      const btn = document.getElementById('salonProfileBtn');
+      const dd = document.getElementById('salonProfileDropdown');
+      if (!btn || !dd) return;
+      if (!btn.contains(e.target) && !dd.contains(e.target)) {
+        dd.classList.add('hidden');
+      }
+    });
   </script>
 
   <style>
     body {
-      overflow: hidden !important;
+      overflow: auto;
     }
 
     .custom-scroll::-webkit-scrollbar {
@@ -287,4 +401,4 @@
     }
   </style>
 
-  <%- include("partials/footer") %>
+  

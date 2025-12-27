@@ -12,10 +12,7 @@ router.post("/bookings/update-status", async (req, res) => {
   console.log("Received booking status update:", req.body);
   try {
     // Use booking `id` in WHERE clause (not salon_id)
-    await pool.query("UPDATE bookings SET status = $1 WHERE id = $2", [
-      status,
-      id,
-    ]);
+    await pool.query("UPDATE bookings SET status = $1 WHERE id = $2", [status, id]);
     res.sendStatus(200);
   } catch (err) {
     console.error(err);

@@ -38,9 +38,40 @@
                         class="text-[#E2B171]">PREMIUM</span></h1>
                 <div class="flex items-center gap-4">
                     <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Command Center</span>
-                    <div
-                        class="w-10 h-10 rounded-full bg-[#E2B171] flex items-center justify-center text-white font-bold uppercase">
-                        <%= user.id %>
+
+                    <div class="relative">
+                        <button id="profileBtn" aria-expanded="false" class="flex items-center gap-3 bg-white border border-slate-100 rounded-full px-3 py-1 shadow-sm hover:shadow-md">
+                            <div class="w-10 h-10 rounded-full bg-[#E2B171] flex items-center justify-center text-white font-bold uppercase"> 
+                                <%= (user.name && user.name[0]) || (user.email && user.email[0]) || (user.id && String(user.id)[0]) %>
+                            </div>
+                            <div class="hidden sm:block text-left">
+                                <div class="text-sm font-bold text-[#0F172A]"><%= user.name || 'User' %></div>
+                                <div class="text-[11px] text-slate-400"><%= user.email || '—' %></div>
+                            </div>
+                            <i class="fa-solid fa-caret-down text-slate-400"></i>
+                        </button>
+
+                        <div id="profileDropdown" class="hidden absolute right-0 mt-3 w-64 bg-white rounded-xl border border-slate-100 shadow-lg p-4 z-50">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-12 h-12 rounded-full bg-[#E2B171] flex items-center justify-center text-white font-bold uppercase"> 
+                                    <%= (user.name && user.name[0]) || (user.email && user.email[0]) || (user.id && String(user.id)[0]) %>
+                                </div>
+                                <div>
+                                    <div class="text-sm font-bold text-[#0F172A]"><%= user.name || 'User' %></div>
+                                    <div class="text-xs text-slate-400"><%= user.email || 'No email' %></div>
+                                </div>
+                            </div>
+                            <div class="text-sm text-slate-600 mb-3">
+                                <p><strong class="text-slate-500">Joined:</strong> <%= user.created_at ? new Date(user.created_at).toLocaleDateString() : '-' %></p>
+                                <p><strong class="text-slate-500">Phone:</strong> <%= user.phone || '-' %></p>
+                            </div>
+                            <div class="pt-3 border-t border-slate-100">
+                                <a href="/profile" class="block px-3 py-2 rounded-md text-sm font-bold text-[#0F172A] hover:bg-slate-50">View Profile</a>
+                                <form action="/logout" method="POST">
+                                    <button type="submit" class="w-full text-left mt-2 px-3 py-2 rounded-md text-sm font-bold text-red-600 hover:bg-red-50">Logout</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,8 +96,7 @@
             <header class="mb-8">
                 <h2 class="text-4xl font-black text-[#0F172A] tracking-tighter">Active <span
                         class="text-[#E2B171]">Sessions</span></h2>
-                <p class="text-slate-400 text-xs font-black uppercase tracking-[0.4em] mt-2">Live tracking of your
-                    current bookings</p>
+                <p class="text-slate-400 text-xs font-black uppercase tracking-[0.4em] mt-2">Live tracking of your current bookings</p>
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
@@ -196,3 +226,20 @@
     </div>
 
     <%- include("partials/footer") %>
+    <script>
+        // Profile dropdown toggle
+        document.addEventListener('click', function (e) {
+            const btn = document.getElementById('profileBtn');
+            const dd = document.getElementById('profileDropdown');
+            if (!btn || !dd) return;
+            if (btn.contains(e.target)) {
+                // toggle
+                const isHidden = dd.classList.contains('hidden');
+                dd.classList.toggle('hidden', !isHidden);
+                btn.setAttribute('aria-expanded', String(isHidden));
+            } else if (!dd.contains(e.target)) {
+                dd.classList.add('hidden');
+                btn.setAttribute('aria-expanded', 'false');
+            }
+        });
+    </script>

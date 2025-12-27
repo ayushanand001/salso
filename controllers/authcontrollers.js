@@ -126,3 +126,8 @@ exports.resendOtp = async (req, res) => {
     res.render("login", { error: "could not resend otp. please try again" });
   }
 };
+//logout part
+exports.logout = (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/")
+};

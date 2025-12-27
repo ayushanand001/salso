@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const jwt = require("jsonwebtoken");
 const auth = require("../controllers/authcontrollers");
 const authController = require("../controllers/authcontrollers");
 
@@ -18,11 +19,7 @@ router.get("/login", (req, res) => {
 });
 router.post("/register", auth.register);
 router.post("/login", auth.login);
-router.get("/logout", (req, res) => {
-  res.clearCookie("token");
-  res.redirect("/login");
-});
-
+router.post("/logout", auth.logout);
 //new part
 router.get("/resendOtp", auth.resendOtp);
 

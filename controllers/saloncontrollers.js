@@ -77,6 +77,11 @@ exports.getSalonsByemail = async (req, res) => {
     const result = await pool.query("SELECT * FROM salons WHERE email=$1", [
       email,
     ]);
+    const salon_id = result.rows[0].id;
+    const bookings = await pool.query(
+      "SELECT * FROM bookings WHERE salon_id=$1",
+      [salon_id]
+    );
 
     if (result.rows.length === 0) {
       // render dashboard with no salon (view will show friendly message)

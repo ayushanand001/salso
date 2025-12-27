@@ -12,6 +12,10 @@ router.get(
 );
 router.get("/salons", verifyToken, salonController.getAllSalons);
 router.get("/salon/:id", verifyToken, salonController.getSalonsById);
+// Render memberships page (GET) — usable via link from salons.ejs
+router.get("/memberships", verifyToken, (req, res) => {
+  res.render("memberships");
+});
 
 router.get("/api/salons/search", verifyToken, salonController.searchSalons);
 router.get(

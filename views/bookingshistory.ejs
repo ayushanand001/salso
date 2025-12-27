@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salso Premium | Luxury Grooming</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            letter-spacing: -0.01em;
+        }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, #E2B171 0%, #B88A44 100%);
+        }
+
+        .glass-nav {
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.8);
+        }
+    </style>
+</head>
+
+<body class="bg-[#FBFCFE] text-[#0F172A] min-h-screen">
+
+    <div class="min-h-screen bg-[#FBFCFE] font-['Plus_Jakarta_Sans',sans-serif] pb-20">
+
+        <nav class="bg-white border-b border-slate-100 px-6 py-4 mb-8">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <h1 class="text-2xl font-black text-[#0F172A] tracking-tighter">SALSO <span
+                        class="text-[#E2B171]">PREMIUM</span></h1>
+                <div class="flex items-center gap-4">
+                    <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Command Center</span>
+                    <div
+                        class="w-10 h-10 rounded-full bg-[#E2B171] flex items-center justify-center text-white font-bold uppercase">
+                        <%= user.id %>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="max-w-7xl mx-auto px-6">
+            <div class="mb-10">
+                <a href="/salons"
+                    class="inline-flex items-center gap-3 text-slate-400 hover:text-[#E2B171] transition-all group">
+                    <div
+                        class="w-10 h-10 rounded-2xl bg-white border border-slate-100 flex items-center justify-center shadow-sm group-hover:border-[#E2B171] group-hover:bg-[#E2B171]/5 transition-all">
+                        <i
+                            class="fa-solid fa-chevron-left text-[10px] group-hover:-translate-x-1 transition-transform"></i>
+                    </div>
+                    <div class="flex flex-col">
+                        <span
+                            class="text-[9px] font-black uppercase tracking-[0.3em] leading-none mb-1">Navigation</span>
+                        <span class="text-xs font-bold text-[#0F172A]">Back to Discovery</span>
+                    </div>
+                </a>
+            </div>
+            <header class="mb-8">
+                <h2 class="text-4xl font-black text-[#0F172A] tracking-tighter">Active <span
+                        class="text-[#E2B171]">Sessions</span></h2>
+                <p class="text-slate-400 text-xs font-black uppercase tracking-[0.4em] mt-2">Live tracking of your
+                    current bookings</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+                <% if (currentBookings && currentBookings.length> 0) { %>
+                    <% currentBookings.forEach(booking=> { %>
+                        <a href="/order-details/<%= booking.booking_id || booking.id %>"
+                            class="group relative bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-xl shadow-slate-200/40 hover:border-[#E2B171] transition-all duration-500 hover:-translate-y-2">
+
+                            <div class="flex justify-between items-start mb-6">
+                                <div
+                                    class="flex items-center gap-2 px-4 py-1.5 rounded-full <%= booking.status === 'ongoing' ? 'bg-amber-50 text-amber-600' : 'bg-blue-50 text-blue-600' %>">
+                                    <span
+                                        class="w-1.5 h-1.5 rounded-full <%= booking.status === 'ongoing' ? 'bg-amber-500 animate-pulse' : 'bg-blue-500' %>"></span>
+                                    <span class="text-[9px] font-black uppercase tracking-widest">
+                                        <%= booking.status %>
+                                    </span>
+                                </div>
+                                <i
+                                    class="fa-solid fa-arrow-up-right-from-square text-slate-200 group-hover:text-[#E2B171] transition-colors"></i>
+                            </div>
+
+                            <h3 class="text-2xl font-black text-[#0F172A] mb-2 leading-tight tracking-tight">
+                                <%= booking.salon_name || booking.name %>
+                            </h3>
+
+                            <div class="flex items-center gap-2 text-slate-400 mb-6">
+                                <i class="fa-solid fa-location-dot text-[10px]"></i>
+                                <p class="text-[11px] font-bold uppercase truncate">
+                                    <%= booking.address %>
+                                </p>
+                            </div>
+
+                            <div class="bg-slate-50 rounded-2xl p-4 flex justify-between items-center">
+                                <div>
+                                    <p class="text-[9px] font-black text-slate-400 uppercase">Schedule</p>
+                                    <p class="text-sm font-black text-[#0F172A]">
+                                        <%= booking.dayslot %>
+                                    </p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[9px] font-black text-slate-400 uppercase">Window</p>
+                                    <p class="text-sm font-black text-[#0F172A]">
+                                        <%= booking.timeslot %>
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                        <% }) %>
+                            <% } else { %>
+                                <div
+                                    class="col-span-full py-20 bg-slate-50/50 border-2 border-dashed border-slate-100 rounded-[3rem] flex flex-col items-center">
+                                    <i class="fa-solid fa-calendar-day text-slate-200 text-4xl mb-4"></i>
+                                    <p class="text-slate-400 font-bold uppercase tracking-widest text-xs">No active
+                                        sessions at the moment</p>
+                                    <a href="/salons"
+                                        class="mt-6 text-[#E2B171] font-black text-[10px] uppercase tracking-widest border-b border-[#E2B171]">Book
+                                        a New Service</a>
+                                </div>
+                                <% } %>
+            </div>
+
+            <header class="mb-8 pt-8 border-t border-slate-100">
+                <h2 class="text-2xl font-black text-[#0F172A] tracking-tight opacity-40">Service History</h2>
+                <p class="text-slate-400 text-[10px] font-black uppercase tracking-[0.3em] mt-1">Review of your past
+                    premium experiences</p>
+            </header>
+
+            <div class="bg-white rounded-[2rem] border border-slate-100 overflow-hidden shadow-sm">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50/50">
+                        <tr>
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Salon
+                            </th>
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                Service</th>
+                            <th class="px-8 py-5 text-[10px] font-black text-slate-400 uppercase tracking-widest">Date
+                            </th>
+                            <th
+                                class="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+                        <% if (previousBookings && previousBookings.length> 0) { %>
+                            <% previousBookings.forEach(history=> { %>
+                                <tr class="group hover:bg-slate-50/30 transition-colors">
+                                    <td class="px-8 py-6">
+                                        <p class="font-black text-[#0F172A] text-sm">
+                                            <%= history.salon_name || history.name %>
+                                        </p>
+                                        <p class="text-[10px] text-slate-400 font-bold">#ORD-<%= history.id %>
+                                        </p>
+                                    </td>
+                                    <td class="px-8 py-6">
+                                        <span class="text-xs font-bold text-slate-500">
+                                            <%= history.feature_name %>
+                                        </span>
+                                    </td>
+                                    <td class="px-8 py-6">
+                                        <p class="text-xs font-black text-[#0F172A]">
+                                            <%= history.dayslot %>
+                                        </p>
+                                        <p class="text-[10px] text-slate-400 font-bold uppercase">
+                                            <%= history.timeslot %>
+                                        </p>
+                                    </td>
+                                    <td class="px-8 py-6 text-right">
+                                        <a href="/order-details/<%= history.id %>"
+                                            class="inline-block px-5 py-2 rounded-lg bg-slate-100 text-[#0F172A] text-[9px] font-black uppercase tracking-widest group-hover:bg-[#E2B171] group-hover:text-white transition-all">
+                                            View Receipt
+                                        </a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="4"
+                                                class="px-8 py-20 text-center text-slate-300 font-bold uppercase text-xs tracking-widest">
+                                                Your service history is currently empty
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <%- include("partials/footer") %>

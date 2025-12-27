@@ -82,10 +82,17 @@
             <h2 class="text-3xl md:text-5xl font-extrabold tracking-tighter mb-2">
               <%= salon.name %>
             </h2>
-            <p class="text-slate-400 font-medium flex items-center gap-2">
-              <i class="fa-solid fa-location-dot text-[#E2B171]"></i>
-              <%= salon.address%> ,<%= salon.location %>
-            </p>
+            <a href="<%= salon.google_maps %>" target="_blank" class="group inline-block">
+              <p
+                class="text-slate-400 font-medium flex items-center gap-2 group-hover:text-[#E2B171] transition-all duration-300 transform group-hover:translate-x-1">
+                <i class="fa-solid fa-location-dot text-[#E2B171] animate-bounce-subtle"></i>
+                <span class="border-b border-transparent group-hover:border-[#E2B171] pb-0.5">
+                  <%= salon.address %>, <%= salon.location %>
+                </span>
+                <i
+                  class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-0 group-hover:opacity-100 transition-opacity"></i>
+              </p>
+            </a>
           </div>
           <span
             class="bg-[#0F172A] text-[#E2B171] px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest mt-2">
